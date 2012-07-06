@@ -1,0 +1,9 @@
+c:\users\hubi\documents\visual studio 2010\Projects\201200706_splitter_v0.1\201200706_splitter_v0.1\bin\Debug\201200706_splitter_v0.1.exe
+c:\users\hubi\documents\visual studio 2010\Projects\201200706_splitter_v0.1\201200706_splitter_v0.1\bin\Debug\201200706_splitter_v0.1.pdb
+c:\users\hubi\documents\visual studio 2010\Projects\201200706_splitter_v0.1\201200706_splitter_v0.1\obj\x86\Debug\ResolveAssemblyReference.cache
+c:\users\hubi\documents\visual studio 2010\Projects\201200706_splitter_v0.1\201200706_splitter_v0.1\obj\x86\Debug\_201200706_splitter_v0._1.formMain.resources
+c:\users\hubi\documents\visual studio 2010\Projects\201200706_splitter_v0.1\201200706_splitter_v0.1\obj\x86\Debug\_201200706_splitter_v0._1.Properties.Resources.resources
+c:\users\hubi\documents\visual studio 2010\Projects\201200706_splitter_v0.1\201200706_splitter_v0.1\obj\x86\Debug\GenerateResource.read.1.tlog
+c:\users\hubi\documents\visual studio 2010\Projects\201200706_splitter_v0.1\201200706_splitter_v0.1\obj\x86\Debug\GenerateResource.write.1.tlog
+c:\users\hubi\documents\visual studio 2010\Projects\201200706_splitter_v0.1\201200706_splitter_v0.1\obj\x86\Debug\201200706_splitter_v0.1.exe
+c:\users\hubi\documents\visual studio 2010\Projects\201200706_splitter_v0.1\201200706_splitter_v0.1\obj\x86\Debug\201200706_splitter_v0.1.pdb
