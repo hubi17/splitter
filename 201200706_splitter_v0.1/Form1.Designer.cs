@@ -27,6 +27,8 @@
             this.tabpageSplit = new System.Windows.Forms.TabPage();
             this.btnCancel = new System.Windows.Forms.Button();
             this.gbxSizeParts = new System.Windows.Forms.GroupBox();
+            this.nudSizeParts = new System.Windows.Forms.NumericUpDown();
+            this.cbxPrefix = new System.Windows.Forms.ComboBox();
             this.lblType = new System.Windows.Forms.Label();
             this.gbxSelection = new System.Windows.Forms.GroupBox();
             this.lblDest = new System.Windows.Forms.Label();
@@ -49,15 +51,13 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cbxPrefix = new System.Windows.Forms.ComboBox();
-            this.nudSizeParts = new System.Windows.Forms.NumericUpDown();
             this.tabctrlSelection.SuspendLayout();
             this.tabpageSplit.SuspendLayout();
             this.gbxSizeParts.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSizeParts)).BeginInit();
             this.gbxSelection.SuspendLayout();
             this.gbxSplitType.SuspendLayout();
             this.mainMenu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudSizeParts)).BeginInit();
             this.SuspendLayout();
             // 
             // tabctrlSelection
@@ -87,7 +87,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(157, 247);
+            this.btnCancel.Location = new System.Drawing.Point(583, 247);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 11;
@@ -106,6 +106,37 @@
             this.gbxSizeParts.TabIndex = 10;
             this.gbxSizeParts.TabStop = false;
             this.gbxSizeParts.Visible = false;
+            // 
+            // nudSizeParts
+            // 
+            this.nudSizeParts.Location = new System.Drawing.Point(135, 17);
+            this.nudSizeParts.Maximum = new decimal(new int[] {
+            1073741824,
+            0,
+            0,
+            0});
+            this.nudSizeParts.Name = "nudSizeParts";
+            this.nudSizeParts.Size = new System.Drawing.Size(138, 20);
+            this.nudSizeParts.TabIndex = 3;
+            this.nudSizeParts.Value = new decimal(new int[] {
+            1024,
+            0,
+            0,
+            0});
+            // 
+            // cbxPrefix
+            // 
+            this.cbxPrefix.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbxPrefix.FormattingEnabled = true;
+            this.cbxPrefix.Items.AddRange(new object[] {
+            "Bytes",
+            "KBytes",
+            "MBytes"});
+            this.cbxPrefix.Location = new System.Drawing.Point(279, 17);
+            this.cbxPrefix.Name = "cbxPrefix";
+            this.cbxPrefix.Size = new System.Drawing.Size(138, 21);
+            this.cbxPrefix.TabIndex = 2;
+            this.cbxPrefix.Text = "Bytes";
             // 
             // lblType
             // 
@@ -175,6 +206,7 @@
             this.tbxOutputPathSplit.Name = "tbxOutputPathSplit";
             this.tbxOutputPathSplit.Size = new System.Drawing.Size(436, 20);
             this.tbxOutputPathSplit.TabIndex = 7;
+            this.tbxOutputPathSplit.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbxOutputPathSplit_KeyDown);
             // 
             // tbxInputFileSplit
             // 
@@ -182,6 +214,7 @@
             this.tbxInputFileSplit.Name = "tbxInputFileSplit";
             this.tbxInputFileSplit.Size = new System.Drawing.Size(436, 20);
             this.tbxInputFileSplit.TabIndex = 6;
+            this.tbxInputFileSplit.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbxInputFileSplit_KeyDown);
             // 
             // gbxSplitType
             // 
@@ -221,7 +254,7 @@
             // 
             // btnSplit
             // 
-            this.btnSplit.Location = new System.Drawing.Point(51, 247);
+            this.btnSplit.Location = new System.Drawing.Point(502, 247);
             this.btnSplit.Name = "btnSplit";
             this.btnSplit.Size = new System.Drawing.Size(75, 23);
             this.btnSplit.TabIndex = 6;
@@ -302,37 +335,6 @@
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
-            // cbxPrefix
-            // 
-            this.cbxPrefix.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cbxPrefix.FormattingEnabled = true;
-            this.cbxPrefix.Items.AddRange(new object[] {
-            "Bytes",
-            "KBytes",
-            "MBytes"});
-            this.cbxPrefix.Location = new System.Drawing.Point(279, 17);
-            this.cbxPrefix.Name = "cbxPrefix";
-            this.cbxPrefix.Size = new System.Drawing.Size(138, 21);
-            this.cbxPrefix.TabIndex = 2;
-            this.cbxPrefix.Text = "Bytes";
-            // 
-            // nudSizeParts
-            // 
-            this.nudSizeParts.Location = new System.Drawing.Point(135, 17);
-            this.nudSizeParts.Maximum = new decimal(new int[] {
-            1073741824,
-            0,
-            0,
-            0});
-            this.nudSizeParts.Name = "nudSizeParts";
-            this.nudSizeParts.Size = new System.Drawing.Size(138, 20);
-            this.nudSizeParts.TabIndex = 3;
-            this.nudSizeParts.Value = new decimal(new int[] {
-            1024,
-            0,
-            0,
-            0});
-            // 
             // formMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -349,13 +351,13 @@
             this.tabpageSplit.ResumeLayout(false);
             this.gbxSizeParts.ResumeLayout(false);
             this.gbxSizeParts.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSizeParts)).EndInit();
             this.gbxSelection.ResumeLayout(false);
             this.gbxSelection.PerformLayout();
             this.gbxSplitType.ResumeLayout(false);
             this.gbxSplitType.PerformLayout();
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudSizeParts)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

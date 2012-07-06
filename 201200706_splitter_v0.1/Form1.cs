@@ -142,7 +142,7 @@ namespace _201200706_splitter_v0._1 {
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
 
-            MessageBox.Show("File Splitter by Daniel Auhuber", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("File Splitter\nby Daniel Auhuber\n2012", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void bgWorkerStatus_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
@@ -157,6 +157,45 @@ namespace _201200706_splitter_v0._1 {
                 progressBarStatus.Value = 0;
                 progressBarStatus.Visible = false;
                 MessageBox.Show("Done");
+            }
+        }
+
+        private void tbxInputFileSplit_KeyDown(object sender, KeyEventArgs e) {
+
+            if (e.KeyCode == Keys.Return) {
+
+                if (tbxInputFileSplit.Text != "") {
+
+                    vSrcSelected = true;
+                    tbxOutputPathSplit.Focus();
+                }
+
+                if (vSrcSelected && vDestSelected) {
+
+                    gbxSplitType.Visible = true;
+                } else {
+
+                    gbxSplitType.Visible = false;
+                }
+            }
+        }
+
+        private void tbxOutputPathSplit_KeyDown(object sender, KeyEventArgs e) {
+
+            if (e.KeyCode == Keys.Return) {
+
+                if (tbxOutputPathSplit.Text != "") {
+
+                    vDestSelected = true;
+                }
+
+                if (vSrcSelected && vDestSelected) {
+
+                    gbxSplitType.Visible = true;
+                } else {
+
+                    gbxSplitType.Visible = false;
+                }
             }
         }
     }
