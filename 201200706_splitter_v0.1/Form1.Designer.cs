@@ -49,12 +49,15 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbxPrefix = new System.Windows.Forms.ComboBox();
+            this.nudSizeParts = new System.Windows.Forms.NumericUpDown();
             this.tabctrlSelection.SuspendLayout();
             this.tabpageSplit.SuspendLayout();
             this.gbxSizeParts.SuspendLayout();
             this.gbxSelection.SuspendLayout();
             this.gbxSplitType.SuspendLayout();
             this.mainMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSizeParts)).BeginInit();
             this.SuspendLayout();
             // 
             // tabctrlSelection
@@ -94,6 +97,8 @@
             // 
             // gbxSizeParts
             // 
+            this.gbxSizeParts.Controls.Add(this.nudSizeParts);
+            this.gbxSizeParts.Controls.Add(this.cbxPrefix);
             this.gbxSizeParts.Controls.Add(this.lblType);
             this.gbxSizeParts.Location = new System.Drawing.Point(6, 171);
             this.gbxSizeParts.Name = "gbxSizeParts";
@@ -105,7 +110,7 @@
             // lblType
             // 
             this.lblType.AutoSize = true;
-            this.lblType.Location = new System.Drawing.Point(6, 16);
+            this.lblType.Location = new System.Drawing.Point(6, 20);
             this.lblType.Name = "lblType";
             this.lblType.Size = new System.Drawing.Size(35, 13);
             this.lblType.TabIndex = 0;
@@ -229,7 +234,7 @@
             this.tabpageJoin.Location = new System.Drawing.Point(4, 22);
             this.tabpageJoin.Name = "tabpageJoin";
             this.tabpageJoin.Padding = new System.Windows.Forms.Padding(3);
-            this.tabpageJoin.Size = new System.Drawing.Size(481, 291);
+            this.tabpageJoin.Size = new System.Drawing.Size(670, 291);
             this.tabpageJoin.TabIndex = 1;
             this.tabpageJoin.Text = "Join";
             this.tabpageJoin.UseVisualStyleBackColor = true;
@@ -249,8 +254,10 @@
             // bgWorkerStatus
             // 
             this.bgWorkerStatus.WorkerReportsProgress = true;
+            this.bgWorkerStatus.WorkerSupportsCancellation = true;
             this.bgWorkerStatus.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorkerStatus_DoWork);
             this.bgWorkerStatus.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWorkerStatus_ProgressChanged);
+            this.bgWorkerStatus.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorkerStatus_RunWorkerCompleted);
             // 
             // mainMenu
             // 
@@ -295,6 +302,37 @@
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
+            // cbxPrefix
+            // 
+            this.cbxPrefix.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbxPrefix.FormattingEnabled = true;
+            this.cbxPrefix.Items.AddRange(new object[] {
+            "Bytes",
+            "KBytes",
+            "MBytes"});
+            this.cbxPrefix.Location = new System.Drawing.Point(279, 17);
+            this.cbxPrefix.Name = "cbxPrefix";
+            this.cbxPrefix.Size = new System.Drawing.Size(138, 21);
+            this.cbxPrefix.TabIndex = 2;
+            this.cbxPrefix.Text = "Bytes";
+            // 
+            // nudSizeParts
+            // 
+            this.nudSizeParts.Location = new System.Drawing.Point(135, 17);
+            this.nudSizeParts.Maximum = new decimal(new int[] {
+            1073741824,
+            0,
+            0,
+            0});
+            this.nudSizeParts.Name = "nudSizeParts";
+            this.nudSizeParts.Size = new System.Drawing.Size(138, 20);
+            this.nudSizeParts.TabIndex = 3;
+            this.nudSizeParts.Value = new decimal(new int[] {
+            1024,
+            0,
+            0,
+            0});
+            // 
             // formMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -317,6 +355,7 @@
             this.gbxSplitType.PerformLayout();
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSizeParts)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -350,6 +389,8 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.Label lblType;
+        private System.Windows.Forms.ComboBox cbxPrefix;
+        private System.Windows.Forms.NumericUpDown nudSizeParts;
     }
 }
 

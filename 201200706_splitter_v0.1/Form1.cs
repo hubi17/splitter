@@ -76,21 +76,29 @@ namespace _201200706_splitter_v0._1 {
 
             for (int i = 1; i <= 100; i++) {
                 
-                // do work
-                Thread.Sleep(100);
+                if (bgWorkerStatus.CancellationPending) {
 
-                // report status
-                bgWorkerStatus.ReportProgress(i);
+                    e.Cancel = true;
+                } else {
+
+                    // do work
+                    Thread.Sleep(100);
+                    // report status
+                    bgWorkerStatus.ReportProgress(i);
+                }
             }
         }
 
         private void btnSplit_Click(object sender, EventArgs e) {
 
-            // start the background worker
-            bgWorkerStatus.RunWorkerAsync();
+            if (!bgWorkerStatus.IsBusy) {
 
-            // make progress bar visible
-            progressBarStatus.Visible = true;
+                // start the background worker
+                bgWorkerStatus.RunWorkerAsync();
+
+                // make progress bar visible
+                progressBarStatus.Visible = true;
+            }
         }
 
         private void bgWorkerStatus_ProgressChanged(object sender, ProgressChangedEventArgs e) {
@@ -101,16 +109,18 @@ namespace _201200706_splitter_v0._1 {
 
         private void rbtnParts_CheckedChanged(object sender, EventArgs e) {
 
-            gbxSizeParts.Text = "Number of parts";
+            gbxSizeParts.Text = "Parts";
             gbxSizeParts.Visible = true;
-            lblType.Text = "Enter number of parts:";
+            lblType.Text = "Number of parts:";
+            cbxPrefix.Visible = false;
         }
 
         private void rbtnSize_CheckedChanged(object sender, EventArgs e) {
 
-            gbxSizeParts.Text = "Part size";
+            gbxSizeParts.Text = "Size";
             gbxSizeParts.Visible = true;
-            lblType.Text = "Enter split file size:";
+            lblType.Text = "Split file size:";
+            cbxPrefix.Visible = true;
         }
 
         private void btnCancel_Click(object sender, EventArgs e) {
@@ -121,6 +131,8 @@ namespace _201200706_splitter_v0._1 {
             vSrcSelected = false;
             tbxInputFileSplit.Clear();
             tbxOutputPathSplit.Clear();
+
+            bgWorkerStatus.CancelAsync();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -130,7 +142,22 @@ namespace _201200706_splitter_v0._1 {
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
 
-            MessageBox.Show("File Splitter by Daniel Auhuber");
+            MessageBox.Show("File Splitter by Daniel Auhuber", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void bgWorkerStatus_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
+
+            if (e.Cancelled) {
+
+                progressBarStatus.Value = 0;
+                progressBarStatus.Visible = false;
+                MessageBox.Show("Canceled");
+            } else {
+
+                progressBarStatus.Value = 0;
+                progressBarStatus.Visible = false;
+                MessageBox.Show("Done");
+            }
         }
     }
 }
