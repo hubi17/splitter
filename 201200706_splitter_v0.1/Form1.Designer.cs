@@ -90,7 +90,7 @@
             this.btnCancel.Location = new System.Drawing.Point(583, 247);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 11;
+            this.btnCancel.TabIndex = 10;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -105,6 +105,7 @@
             this.gbxSizeParts.Size = new System.Drawing.Size(658, 48);
             this.gbxSizeParts.TabIndex = 10;
             this.gbxSizeParts.TabStop = false;
+            this.gbxSizeParts.Text = "Size";
             this.gbxSizeParts.Visible = false;
             // 
             // nudSizeParts
@@ -117,7 +118,7 @@
             0});
             this.nudSizeParts.Name = "nudSizeParts";
             this.nudSizeParts.Size = new System.Drawing.Size(138, 20);
-            this.nudSizeParts.TabIndex = 3;
+            this.nudSizeParts.TabIndex = 7;
             this.nudSizeParts.Value = new decimal(new int[] {
             1024,
             0,
@@ -135,7 +136,7 @@
             this.cbxPrefix.Location = new System.Drawing.Point(279, 17);
             this.cbxPrefix.Name = "cbxPrefix";
             this.cbxPrefix.Size = new System.Drawing.Size(138, 21);
-            this.cbxPrefix.TabIndex = 2;
+            this.cbxPrefix.TabIndex = 8;
             this.cbxPrefix.Text = "Bytes";
             // 
             // lblType
@@ -143,9 +144,9 @@
             this.lblType.AutoSize = true;
             this.lblType.Location = new System.Drawing.Point(6, 20);
             this.lblType.Name = "lblType";
-            this.lblType.Size = new System.Drawing.Size(35, 13);
+            this.lblType.Size = new System.Drawing.Size(67, 13);
             this.lblType.TabIndex = 0;
-            this.lblType.Text = "label1";
+            this.lblType.Text = "Split file size:";
             // 
             // gbxSelection
             // 
@@ -177,7 +178,7 @@
             this.lblSrc.Location = new System.Drawing.Point(6, 21);
             this.lblSrc.Name = "lblSrc";
             this.lblSrc.Size = new System.Drawing.Size(63, 13);
-            this.lblSrc.TabIndex = 10;
+            this.lblSrc.TabIndex = 100;
             this.lblSrc.Text = "Source File:";
             // 
             // btnOutputPath
@@ -185,7 +186,7 @@
             this.btnOutputPath.Location = new System.Drawing.Point(577, 46);
             this.btnOutputPath.Name = "btnOutputPath";
             this.btnOutputPath.Size = new System.Drawing.Size(75, 23);
-            this.btnOutputPath.TabIndex = 9;
+            this.btnOutputPath.TabIndex = 4;
             this.btnOutputPath.Text = "Destination";
             this.btnOutputPath.UseVisualStyleBackColor = true;
             this.btnOutputPath.Click += new System.EventHandler(this.btnOutputPath_Click);
@@ -195,7 +196,7 @@
             this.btnInputFile.Location = new System.Drawing.Point(577, 16);
             this.btnInputFile.Name = "btnInputFile";
             this.btnInputFile.Size = new System.Drawing.Size(75, 23);
-            this.btnInputFile.TabIndex = 8;
+            this.btnInputFile.TabIndex = 2;
             this.btnInputFile.Text = "Select File";
             this.btnInputFile.UseVisualStyleBackColor = true;
             this.btnInputFile.Click += new System.EventHandler(this.btnInputFile_Click);
@@ -205,7 +206,7 @@
             this.tbxOutputPathSplit.Location = new System.Drawing.Point(135, 48);
             this.tbxOutputPathSplit.Name = "tbxOutputPathSplit";
             this.tbxOutputPathSplit.Size = new System.Drawing.Size(436, 20);
-            this.tbxOutputPathSplit.TabIndex = 7;
+            this.tbxOutputPathSplit.TabIndex = 3;
             this.tbxOutputPathSplit.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbxOutputPathSplit_KeyDown);
             // 
             // tbxInputFileSplit
@@ -213,7 +214,7 @@
             this.tbxInputFileSplit.Location = new System.Drawing.Point(135, 18);
             this.tbxInputFileSplit.Name = "tbxInputFileSplit";
             this.tbxInputFileSplit.Size = new System.Drawing.Size(436, 20);
-            this.tbxInputFileSplit.TabIndex = 6;
+            this.tbxInputFileSplit.TabIndex = 1;
             this.tbxInputFileSplit.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbxInputFileSplit_KeyDown);
             // 
             // gbxSplitType
@@ -234,8 +235,7 @@
             this.rbtnParts.Location = new System.Drawing.Point(6, 42);
             this.rbtnParts.Name = "rbtnParts";
             this.rbtnParts.Size = new System.Drawing.Size(100, 17);
-            this.rbtnParts.TabIndex = 4;
-            this.rbtnParts.TabStop = true;
+            this.rbtnParts.TabIndex = 6;
             this.rbtnParts.Text = "Number of parts";
             this.rbtnParts.UseVisualStyleBackColor = true;
             this.rbtnParts.CheckedChanged += new System.EventHandler(this.rbtnParts_CheckedChanged);
@@ -243,10 +243,11 @@
             // rbtnSize
             // 
             this.rbtnSize.AutoSize = true;
+            this.rbtnSize.Checked = true;
             this.rbtnSize.Location = new System.Drawing.Point(6, 19);
             this.rbtnSize.Name = "rbtnSize";
             this.rbtnSize.Size = new System.Drawing.Size(65, 17);
-            this.rbtnSize.TabIndex = 3;
+            this.rbtnSize.TabIndex = 5;
             this.rbtnSize.TabStop = true;
             this.rbtnSize.Text = "Part size";
             this.rbtnSize.UseVisualStyleBackColor = true;
@@ -257,7 +258,7 @@
             this.btnSplit.Location = new System.Drawing.Point(502, 247);
             this.btnSplit.Name = "btnSplit";
             this.btnSplit.Size = new System.Drawing.Size(75, 23);
-            this.btnSplit.TabIndex = 6;
+            this.btnSplit.TabIndex = 9;
             this.btnSplit.Text = "Split";
             this.btnSplit.UseVisualStyleBackColor = true;
             this.btnSplit.Click += new System.EventHandler(this.btnSplit_Click);
@@ -281,7 +282,7 @@
             this.progressBarStatus.Location = new System.Drawing.Point(12, 350);
             this.progressBarStatus.Name = "progressBarStatus";
             this.progressBarStatus.Size = new System.Drawing.Size(678, 23);
-            this.progressBarStatus.TabIndex = 1;
+            this.progressBarStatus.TabIndex = 20;
             this.progressBarStatus.Visible = false;
             // 
             // bgWorkerStatus
