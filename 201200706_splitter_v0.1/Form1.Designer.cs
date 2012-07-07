@@ -25,16 +25,16 @@
         private void InitializeComponent() {
             this.tabctrlSelection = new System.Windows.Forms.TabControl();
             this.tabpageSplit = new System.Windows.Forms.TabPage();
-            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnCancelSplit = new System.Windows.Forms.Button();
             this.gbxSizeParts = new System.Windows.Forms.GroupBox();
             this.nudSizeParts = new System.Windows.Forms.NumericUpDown();
             this.cbxPrefix = new System.Windows.Forms.ComboBox();
             this.lblType = new System.Windows.Forms.Label();
-            this.gbxSelection = new System.Windows.Forms.GroupBox();
-            this.lblDest = new System.Windows.Forms.Label();
-            this.lblSrc = new System.Windows.Forms.Label();
-            this.btnOutputPath = new System.Windows.Forms.Button();
-            this.btnInputFile = new System.Windows.Forms.Button();
+            this.gbxSelectionSplit = new System.Windows.Forms.GroupBox();
+            this.lblDestSplit = new System.Windows.Forms.Label();
+            this.lblSrcSplit = new System.Windows.Forms.Label();
+            this.btnOutputPathSplit = new System.Windows.Forms.Button();
+            this.btnInputFileSplit = new System.Windows.Forms.Button();
             this.tbxOutputPathSplit = new System.Windows.Forms.TextBox();
             this.tbxInputFileSplit = new System.Windows.Forms.TextBox();
             this.gbxSplitType = new System.Windows.Forms.GroupBox();
@@ -51,13 +51,26 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gbxSelectionJoin = new System.Windows.Forms.GroupBox();
+            this.lblDestJoin = new System.Windows.Forms.Label();
+            this.lblSrcJoin = new System.Windows.Forms.Label();
+            this.btnOutputPathJoin = new System.Windows.Forms.Button();
+            this.btnInputFileJoin = new System.Windows.Forms.Button();
+            this.tbxOutputPathJoin = new System.Windows.Forms.TextBox();
+            this.tbxInputFileJoin = new System.Windows.Forms.TextBox();
+            this.joinToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.splitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnCancelJoin = new System.Windows.Forms.Button();
+            this.btnJoin = new System.Windows.Forms.Button();
             this.tabctrlSelection.SuspendLayout();
             this.tabpageSplit.SuspendLayout();
             this.gbxSizeParts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudSizeParts)).BeginInit();
-            this.gbxSelection.SuspendLayout();
+            this.gbxSelectionSplit.SuspendLayout();
             this.gbxSplitType.SuspendLayout();
+            this.tabpageJoin.SuspendLayout();
             this.mainMenu.SuspendLayout();
+            this.gbxSelectionJoin.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabctrlSelection
@@ -72,9 +85,9 @@
             // 
             // tabpageSplit
             // 
-            this.tabpageSplit.Controls.Add(this.btnCancel);
+            this.tabpageSplit.Controls.Add(this.btnCancelSplit);
             this.tabpageSplit.Controls.Add(this.gbxSizeParts);
-            this.tabpageSplit.Controls.Add(this.gbxSelection);
+            this.tabpageSplit.Controls.Add(this.gbxSelectionSplit);
             this.tabpageSplit.Controls.Add(this.gbxSplitType);
             this.tabpageSplit.Controls.Add(this.btnSplit);
             this.tabpageSplit.Location = new System.Drawing.Point(4, 22);
@@ -85,15 +98,15 @@
             this.tabpageSplit.Text = "Split";
             this.tabpageSplit.UseVisualStyleBackColor = true;
             // 
-            // btnCancel
+            // btnCancelSplit
             // 
-            this.btnCancel.Location = new System.Drawing.Point(583, 247);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 10;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            this.btnCancelSplit.Location = new System.Drawing.Point(583, 247);
+            this.btnCancelSplit.Name = "btnCancelSplit";
+            this.btnCancelSplit.Size = new System.Drawing.Size(75, 23);
+            this.btnCancelSplit.TabIndex = 10;
+            this.btnCancelSplit.Text = "Cancel";
+            this.btnCancelSplit.UseVisualStyleBackColor = true;
+            this.btnCancelSplit.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // gbxSizeParts
             // 
@@ -148,58 +161,58 @@
             this.lblType.TabIndex = 0;
             this.lblType.Text = "Split file size:";
             // 
-            // gbxSelection
+            // gbxSelectionSplit
             // 
-            this.gbxSelection.Controls.Add(this.lblDest);
-            this.gbxSelection.Controls.Add(this.lblSrc);
-            this.gbxSelection.Controls.Add(this.btnOutputPath);
-            this.gbxSelection.Controls.Add(this.btnInputFile);
-            this.gbxSelection.Controls.Add(this.tbxOutputPathSplit);
-            this.gbxSelection.Controls.Add(this.tbxInputFileSplit);
-            this.gbxSelection.Location = new System.Drawing.Point(6, 6);
-            this.gbxSelection.Name = "gbxSelection";
-            this.gbxSelection.Size = new System.Drawing.Size(658, 82);
-            this.gbxSelection.TabIndex = 9;
-            this.gbxSelection.TabStop = false;
-            this.gbxSelection.Text = "File selection";
+            this.gbxSelectionSplit.Controls.Add(this.lblDestSplit);
+            this.gbxSelectionSplit.Controls.Add(this.lblSrcSplit);
+            this.gbxSelectionSplit.Controls.Add(this.btnOutputPathSplit);
+            this.gbxSelectionSplit.Controls.Add(this.btnInputFileSplit);
+            this.gbxSelectionSplit.Controls.Add(this.tbxOutputPathSplit);
+            this.gbxSelectionSplit.Controls.Add(this.tbxInputFileSplit);
+            this.gbxSelectionSplit.Location = new System.Drawing.Point(6, 6);
+            this.gbxSelectionSplit.Name = "gbxSelectionSplit";
+            this.gbxSelectionSplit.Size = new System.Drawing.Size(658, 82);
+            this.gbxSelectionSplit.TabIndex = 9;
+            this.gbxSelectionSplit.TabStop = false;
+            this.gbxSelectionSplit.Text = "File selection";
             // 
-            // lblDest
+            // lblDestSplit
             // 
-            this.lblDest.AutoSize = true;
-            this.lblDest.Location = new System.Drawing.Point(6, 51);
-            this.lblDest.Name = "lblDest";
-            this.lblDest.Size = new System.Drawing.Size(67, 13);
-            this.lblDest.TabIndex = 11;
-            this.lblDest.Text = "Output Path:";
+            this.lblDestSplit.AutoSize = true;
+            this.lblDestSplit.Location = new System.Drawing.Point(6, 51);
+            this.lblDestSplit.Name = "lblDestSplit";
+            this.lblDestSplit.Size = new System.Drawing.Size(67, 13);
+            this.lblDestSplit.TabIndex = 11;
+            this.lblDestSplit.Text = "Output Path:";
             // 
-            // lblSrc
+            // lblSrcSplit
             // 
-            this.lblSrc.AutoSize = true;
-            this.lblSrc.Location = new System.Drawing.Point(6, 21);
-            this.lblSrc.Name = "lblSrc";
-            this.lblSrc.Size = new System.Drawing.Size(63, 13);
-            this.lblSrc.TabIndex = 100;
-            this.lblSrc.Text = "Source File:";
+            this.lblSrcSplit.AutoSize = true;
+            this.lblSrcSplit.Location = new System.Drawing.Point(6, 21);
+            this.lblSrcSplit.Name = "lblSrcSplit";
+            this.lblSrcSplit.Size = new System.Drawing.Size(63, 13);
+            this.lblSrcSplit.TabIndex = 100;
+            this.lblSrcSplit.Text = "Source File:";
             // 
-            // btnOutputPath
+            // btnOutputPathSplit
             // 
-            this.btnOutputPath.Location = new System.Drawing.Point(577, 46);
-            this.btnOutputPath.Name = "btnOutputPath";
-            this.btnOutputPath.Size = new System.Drawing.Size(75, 23);
-            this.btnOutputPath.TabIndex = 4;
-            this.btnOutputPath.Text = "Destination";
-            this.btnOutputPath.UseVisualStyleBackColor = true;
-            this.btnOutputPath.Click += new System.EventHandler(this.btnOutputPath_Click);
+            this.btnOutputPathSplit.Location = new System.Drawing.Point(577, 46);
+            this.btnOutputPathSplit.Name = "btnOutputPathSplit";
+            this.btnOutputPathSplit.Size = new System.Drawing.Size(75, 23);
+            this.btnOutputPathSplit.TabIndex = 4;
+            this.btnOutputPathSplit.Text = "Destination";
+            this.btnOutputPathSplit.UseVisualStyleBackColor = true;
+            this.btnOutputPathSplit.Click += new System.EventHandler(this.btnOutputPath_Click);
             // 
-            // btnInputFile
+            // btnInputFileSplit
             // 
-            this.btnInputFile.Location = new System.Drawing.Point(577, 16);
-            this.btnInputFile.Name = "btnInputFile";
-            this.btnInputFile.Size = new System.Drawing.Size(75, 23);
-            this.btnInputFile.TabIndex = 2;
-            this.btnInputFile.Text = "Select File";
-            this.btnInputFile.UseVisualStyleBackColor = true;
-            this.btnInputFile.Click += new System.EventHandler(this.btnInputFile_Click);
+            this.btnInputFileSplit.Location = new System.Drawing.Point(577, 16);
+            this.btnInputFileSplit.Name = "btnInputFileSplit";
+            this.btnInputFileSplit.Size = new System.Drawing.Size(75, 23);
+            this.btnInputFileSplit.TabIndex = 2;
+            this.btnInputFileSplit.Text = "Select File";
+            this.btnInputFileSplit.UseVisualStyleBackColor = true;
+            this.btnInputFileSplit.Click += new System.EventHandler(this.btnInputFile_Click);
             // 
             // tbxOutputPathSplit
             // 
@@ -265,6 +278,9 @@
             // 
             // tabpageJoin
             // 
+            this.tabpageJoin.Controls.Add(this.btnCancelJoin);
+            this.tabpageJoin.Controls.Add(this.btnJoin);
+            this.tabpageJoin.Controls.Add(this.gbxSelectionJoin);
             this.tabpageJoin.Location = new System.Drawing.Point(4, 22);
             this.tabpageJoin.Name = "tabpageJoin";
             this.tabpageJoin.Padding = new System.Windows.Forms.Padding(3);
@@ -308,6 +324,8 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.splitToolStripMenuItem,
+            this.joinToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -317,7 +335,7 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -332,9 +350,109 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // gbxSelectionJoin
+            // 
+            this.gbxSelectionJoin.Controls.Add(this.lblDestJoin);
+            this.gbxSelectionJoin.Controls.Add(this.lblSrcJoin);
+            this.gbxSelectionJoin.Controls.Add(this.btnOutputPathJoin);
+            this.gbxSelectionJoin.Controls.Add(this.btnInputFileJoin);
+            this.gbxSelectionJoin.Controls.Add(this.tbxOutputPathJoin);
+            this.gbxSelectionJoin.Controls.Add(this.tbxInputFileJoin);
+            this.gbxSelectionJoin.Location = new System.Drawing.Point(6, 6);
+            this.gbxSelectionJoin.Name = "gbxSelectionJoin";
+            this.gbxSelectionJoin.Size = new System.Drawing.Size(658, 82);
+            this.gbxSelectionJoin.TabIndex = 10;
+            this.gbxSelectionJoin.TabStop = false;
+            this.gbxSelectionJoin.Text = "File selection";
+            // 
+            // lblDestJoin
+            // 
+            this.lblDestJoin.AutoSize = true;
+            this.lblDestJoin.Location = new System.Drawing.Point(6, 51);
+            this.lblDestJoin.Name = "lblDestJoin";
+            this.lblDestJoin.Size = new System.Drawing.Size(67, 13);
+            this.lblDestJoin.TabIndex = 11;
+            this.lblDestJoin.Text = "Output Path:";
+            // 
+            // lblSrcJoin
+            // 
+            this.lblSrcJoin.AutoSize = true;
+            this.lblSrcJoin.Location = new System.Drawing.Point(6, 21);
+            this.lblSrcJoin.Name = "lblSrcJoin";
+            this.lblSrcJoin.Size = new System.Drawing.Size(63, 13);
+            this.lblSrcJoin.TabIndex = 100;
+            this.lblSrcJoin.Text = "Source File:";
+            // 
+            // btnOutputPathJoin
+            // 
+            this.btnOutputPathJoin.Location = new System.Drawing.Point(577, 46);
+            this.btnOutputPathJoin.Name = "btnOutputPathJoin";
+            this.btnOutputPathJoin.Size = new System.Drawing.Size(75, 23);
+            this.btnOutputPathJoin.TabIndex = 4;
+            this.btnOutputPathJoin.Text = "Destination";
+            this.btnOutputPathJoin.UseVisualStyleBackColor = true;
+            this.btnOutputPathJoin.Click += new System.EventHandler(this.btnOutputPathJoin_Click);
+            // 
+            // btnInputFileJoin
+            // 
+            this.btnInputFileJoin.Location = new System.Drawing.Point(577, 16);
+            this.btnInputFileJoin.Name = "btnInputFileJoin";
+            this.btnInputFileJoin.Size = new System.Drawing.Size(75, 23);
+            this.btnInputFileJoin.TabIndex = 2;
+            this.btnInputFileJoin.Text = "Select File";
+            this.btnInputFileJoin.UseVisualStyleBackColor = true;
+            this.btnInputFileJoin.Click += new System.EventHandler(this.btnInputFileJoin_Click);
+            // 
+            // tbxOutputPathJoin
+            // 
+            this.tbxOutputPathJoin.Location = new System.Drawing.Point(135, 48);
+            this.tbxOutputPathJoin.Name = "tbxOutputPathJoin";
+            this.tbxOutputPathJoin.Size = new System.Drawing.Size(436, 20);
+            this.tbxOutputPathJoin.TabIndex = 3;
+            // 
+            // tbxInputFileJoin
+            // 
+            this.tbxInputFileJoin.Location = new System.Drawing.Point(135, 18);
+            this.tbxInputFileJoin.Name = "tbxInputFileJoin";
+            this.tbxInputFileJoin.Size = new System.Drawing.Size(436, 20);
+            this.tbxInputFileJoin.TabIndex = 1;
+            // 
+            // joinToolStripMenuItem
+            // 
+            this.joinToolStripMenuItem.Name = "joinToolStripMenuItem";
+            this.joinToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.joinToolStripMenuItem.Text = "&Join";
+            this.joinToolStripMenuItem.Click += new System.EventHandler(this.joinToolStripMenuItem_Click);
+            // 
+            // splitToolStripMenuItem
+            // 
+            this.splitToolStripMenuItem.Name = "splitToolStripMenuItem";
+            this.splitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.splitToolStripMenuItem.Text = "&Split";
+            this.splitToolStripMenuItem.Click += new System.EventHandler(this.splitToolStripMenuItem_Click);
+            // 
+            // btnCancelJoin
+            // 
+            this.btnCancelJoin.Location = new System.Drawing.Point(583, 247);
+            this.btnCancelJoin.Name = "btnCancelJoin";
+            this.btnCancelJoin.Size = new System.Drawing.Size(75, 23);
+            this.btnCancelJoin.TabIndex = 12;
+            this.btnCancelJoin.Text = "Cancel";
+            this.btnCancelJoin.UseVisualStyleBackColor = true;
+            // 
+            // btnJoin
+            // 
+            this.btnJoin.Location = new System.Drawing.Point(502, 247);
+            this.btnJoin.Name = "btnJoin";
+            this.btnJoin.Size = new System.Drawing.Size(75, 23);
+            this.btnJoin.TabIndex = 11;
+            this.btnJoin.Text = "Join";
+            this.btnJoin.UseVisualStyleBackColor = true;
+            this.btnJoin.Click += new System.EventHandler(this.btnJoin_Click);
             // 
             // formMain
             // 
@@ -353,12 +471,15 @@
             this.gbxSizeParts.ResumeLayout(false);
             this.gbxSizeParts.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudSizeParts)).EndInit();
-            this.gbxSelection.ResumeLayout(false);
-            this.gbxSelection.PerformLayout();
+            this.gbxSelectionSplit.ResumeLayout(false);
+            this.gbxSelectionSplit.PerformLayout();
             this.gbxSplitType.ResumeLayout(false);
             this.gbxSplitType.PerformLayout();
+            this.tabpageJoin.ResumeLayout(false);
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
+            this.gbxSelectionJoin.ResumeLayout(false);
+            this.gbxSelectionJoin.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -377,15 +498,15 @@
         private System.Windows.Forms.GroupBox gbxSplitType;
         private System.Windows.Forms.RadioButton rbtnParts;
         private System.Windows.Forms.RadioButton rbtnSize;
-        private System.Windows.Forms.GroupBox gbxSelection;
-        private System.Windows.Forms.Label lblDest;
-        private System.Windows.Forms.Label lblSrc;
-        private System.Windows.Forms.Button btnOutputPath;
-        private System.Windows.Forms.Button btnInputFile;
+        private System.Windows.Forms.GroupBox gbxSelectionSplit;
+        private System.Windows.Forms.Label lblDestSplit;
+        private System.Windows.Forms.Label lblSrcSplit;
+        private System.Windows.Forms.Button btnOutputPathSplit;
+        private System.Windows.Forms.Button btnInputFileSplit;
         private System.Windows.Forms.TextBox tbxOutputPathSplit;
         private System.Windows.Forms.TextBox tbxInputFileSplit;
         private System.Windows.Forms.GroupBox gbxSizeParts;
-        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button btnCancelSplit;
         private System.Windows.Forms.MenuStrip mainMenu;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
@@ -394,6 +515,17 @@
         private System.Windows.Forms.Label lblType;
         private System.Windows.Forms.ComboBox cbxPrefix;
         private System.Windows.Forms.NumericUpDown nudSizeParts;
+        private System.Windows.Forms.GroupBox gbxSelectionJoin;
+        private System.Windows.Forms.Label lblDestJoin;
+        private System.Windows.Forms.Label lblSrcJoin;
+        private System.Windows.Forms.Button btnOutputPathJoin;
+        private System.Windows.Forms.Button btnInputFileJoin;
+        private System.Windows.Forms.TextBox tbxOutputPathJoin;
+        private System.Windows.Forms.TextBox tbxInputFileJoin;
+        private System.Windows.Forms.ToolStripMenuItem splitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem joinToolStripMenuItem;
+        private System.Windows.Forms.Button btnCancelJoin;
+        private System.Windows.Forms.Button btnJoin;
     }
 }
 

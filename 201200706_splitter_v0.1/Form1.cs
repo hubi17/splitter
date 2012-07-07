@@ -27,6 +27,8 @@ namespace _201200706_splitter_v0._1 {
 
             DialogResult vResult = openFile.ShowDialog();
 
+            gSrcSelected = false;
+
             if (vResult == DialogResult.OK) {
 
                 tbxInputFileSplit.Text = openFile.FileName;
@@ -51,6 +53,8 @@ namespace _201200706_splitter_v0._1 {
         private void btnOutputPath_Click(object sender, EventArgs e) {
 
             DialogResult vResult = dirBrowser.ShowDialog();
+
+            gDestSelected = false;
 
             if (vResult == DialogResult.OK) {
 
@@ -94,6 +98,7 @@ namespace _201200706_splitter_v0._1 {
 
         private void btnSplit_Click(object sender, EventArgs e) {
 
+            /*
             if (!bgWorkerStatus.IsBusy) {
 
                 // start the background worker
@@ -102,6 +107,7 @@ namespace _201200706_splitter_v0._1 {
                 // make progress bar visible
                 progressBarStatus.Visible = true;
             }
+            */
 
             splitFile();
         }
@@ -154,7 +160,7 @@ namespace _201200706_splitter_v0._1 {
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
 
-            MessageBox.Show("File Splitter\nby Daniel Auhuber\n2012", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("File splitter & joiner\nby Daniel Auhuber\n2012", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void bgWorkerStatus_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
@@ -333,14 +339,20 @@ namespace _201200706_splitter_v0._1 {
                                         + vNameLength
                                         + vFileName;
                                 vHeaderLength = vHeader.Length;
-                                MessageBox.Show(vHeader);
-                                MessageBox.Show(Convert.ToString(vHeaderLength));
 
                                 vFS = new FileStream(vOutputFile, FileMode.OpenOrCreate, FileAccess.Write);
                                 vBW = new BinaryWriter(vFS);
 
                                 vBW.Write(vHeaderLength);
-                                vBW.Write(vHeader);
+                                //vBW.Write(vHeader);
+                                vBW.Write(vType);
+                                vBW.Write(vFileLength);
+                                vBW.Write(vDivCount);
+                                vBW.Write(vDivOffset);
+                                vBW.Write(vDivFirstLength);
+                                vBW.Write(vDivFirstName);
+                                vBW.Write(vNameLength);
+                                vBW.Write(vFileName);
 
                                 for (int j = 0; j < vSplitSize; j++) {
 
@@ -377,6 +389,130 @@ namespace _201200706_splitter_v0._1 {
                 MessageBox.Show("Output path cannot be empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 tbxOutputPathSplit.Focus();
             }
+
+            MessageBox.Show("Done");
+        }
+
+        private void splitToolStripMenuItem_Click(object sender, EventArgs e) {
+
+            tabctrlSelection.SelectedTab = tabpageSplit;
+        }
+
+        private void joinToolStripMenuItem_Click(object sender, EventArgs e) {
+
+            tabctrlSelection.SelectedTab = tabpageJoin;
+        }
+
+        private void btnInputFileJoin_Click(object sender, EventArgs e) {
+
+            DialogResult vResult = openFile.ShowDialog();
+
+            gSrcSelected = false;
+
+            if (vResult == DialogResult.OK) {
+
+                tbxInputFileJoin.Text = openFile.FileName;
+                gSrcSelected = true;
+            } else {
+
+                if (tbxInputFileJoin.Text == "") {
+
+                    gSrcSelected = false;
+                }
+            }
+        }
+
+        private void btnOutputPathJoin_Click(object sender, EventArgs e) {
+
+            DialogResult vResult = dirBrowser.ShowDialog();
+
+            gDestSelected = false;
+
+            if (vResult == DialogResult.OK) {
+
+                tbxOutputPathJoin.Text = dirBrowser.SelectedPath;
+                gDestSelected = true;
+            } else {
+
+                if (tbxOutputPathJoin.Text == "") {
+
+                    gDestSelected = false;
+                }
+            }
+        }
+
+        private void btnJoin_Click(object sender, EventArgs e) {
+
+            joinFiles();
+        }
+
+        private void joinFiles() {
+
+            FileStream vFS;
+            BinaryWriter vBW;
+            BinaryReader vBR;
+            FileInfo vFI;
+
+            string vSrc;
+            string vDest;
+            string vOutputFile;
+
+            int vHeaderLength;
+            byte[] vType;
+            long vFileLength;
+            long vDivCount;
+            int vDivOffset;
+            int vDivFirstLength;
+            string vDivFirstName;
+            int vNameLength;
+            string vName;
+
+            long vSplitSize;
+            byte[] vCombine;
+            long vSplitCount;
+            // vSplitLength is length of individual split files data
+            int vSplitLength;
+            byte[] vBuffer;
+            int vBufferIterator = 0;
+
+            if (tbxInputFileJoin.Text != "") {
+                
+                vSrc = tbxInputFileJoin.Text;
+
+                if (tbxOutputPathJoin.Text != "") {
+
+                    vDest = tbxOutputPathJoin.Text;
+
+                    if (File.Exists(vSrc)) {
+                        
+                        vFI = new FileInfo(vSrc);
+                        vFS = new FileStream(vSrc, FileMode.Open, FileAccess.Read);
+                        vBR = new BinaryReader(vFS);
+
+                        vHeaderLength = vBR.ReadInt32();
+                        // skip one byte denoting length of string
+                        vFS.Seek(1, SeekOrigin.Current);
+
+                        vType = new byte[3];
+                        vType = vBR.ReadBytes(3);
+
+                        vFileLength = vBR.ReadInt32();
+                        vDivCount = vBR.ReadInt32();
+                        vDivOffset = vBR.ReadInt32();
+
+                        MessageBox.Show(Convert.ToString(vHeaderLength));
+                        MessageBox.Show((Convert.ToString((char) vType[0]) + (char) vType[1] + (char) vType[2]));
+                        MessageBox.Show(Convert.ToString(vFileLength));
+                        MessageBox.Show(Convert.ToString(vDivCount));
+                        MessageBox.Show(Convert.ToString(vDivOffset));
+
+                        vBR.Close();
+                        vSplitSize = vFI.Length;
+                    }
+                }
+            }
+
+            
         }
     }
 }
