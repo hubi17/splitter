@@ -225,14 +225,15 @@ namespace _201200706_splitter_v0._1 {
             string vFileName;
 
             int vHeaderLength;
-            char vType;
+            string vHeader;
+            string vType = "div";
             long vFileLength;
-            int vDivCount;
+            long vDivCount;
             int vDivOffset;
+            // length of first div name
             int vDivFirstLength;
             string vDivFirstName;
             int vNameLength;
-            string vName;
 
             // use 8 byte long split file sizes
             long vSplitSize;
@@ -240,14 +241,14 @@ namespace _201200706_splitter_v0._1 {
             long vSplitCount = 0;
             int vSplitsIterator = 0;
 
-            if (tbxInputFileSplit.Text != "") {
+            if (tbxOutputPathSplit.Text != "") {
 
-                vSrc = tbxInputFileSplit.Text;
+                vDest = tbxOutputPathSplit.Text;
+                vDI = new DirectoryInfo(vDest);
 
-                if (tbxOutputPathSplit.Text != "") {
+                if (tbxInputFileSplit.Text != "") {
 
-                    vDest = tbxOutputPathSplit.Text;
-                    vDI = new DirectoryInfo(vDest);
+                    vSrc = tbxInputFileSplit.Text;
 
                     if (vDI.Exists) {
 
@@ -257,6 +258,7 @@ namespace _201200706_splitter_v0._1 {
 
                             vFileName = vFI.Name;
                             vFS = new FileStream(vSrc, FileMode.Open, FileAccess.Read);
+                            vNameLength = vFileName.Length;
 
                             if (rbtnParts.Checked) {
                                 // Split count given
@@ -270,6 +272,8 @@ namespace _201200706_splitter_v0._1 {
 
                                     vSplitSize++;
                                 }
+
+                                vDivCount = vSplitCount;
                             } else {
                                 // Else size option must be selected
 
@@ -298,6 +302,8 @@ namespace _201200706_splitter_v0._1 {
 
                                     vSplitCount++;
                                 }
+
+                                vDivCount = vSplitCount;
                             }
 
                             vSplits = new byte[vFileLength];
@@ -307,12 +313,34 @@ namespace _201200706_splitter_v0._1 {
                             vSplits = vBR.ReadBytes(Convert.ToInt32(vFileLength));
                             vBR.Close();
 
+                            // set name of first div
+                            vDivFirstName = vDest + "\\" + vFileName + 1.ToString("D4");
+                            // get length of first div name
+                            vDivFirstLength = vDivFirstName.Length;
+
                             for (int i = 1; i <= vSplitCount; i++) {
 
+                                vDivOffset = i;
                                 vOutputFile = vDest + "\\" + vFileName + i.ToString("D4");
+
+                                // construct header for div files
+                                vHeader = vType
+                                        + vFileLength
+                                        + vDivCount
+                                        + vDivOffset
+                                        + vDivFirstLength
+                                        + vDivFirstName
+                                        + vNameLength
+                                        + vFileName;
+                                vHeaderLength = vHeader.Length;
+                                MessageBox.Show(vHeader);
+                                MessageBox.Show(Convert.ToString(vHeaderLength));
 
                                 vFS = new FileStream(vOutputFile, FileMode.OpenOrCreate, FileAccess.Write);
                                 vBW = new BinaryWriter(vFS);
+
+                                vBW.Write(vHeaderLength);
+                                vBW.Write(vHeader);
 
                                 for (int j = 0; j < vSplitSize; j++) {
 
@@ -341,13 +369,13 @@ namespace _201200706_splitter_v0._1 {
                     }
                 } else {
 
-                    MessageBox.Show("Output path cannot be empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    tbxOutputPathSplit.Focus();
+                    MessageBox.Show("No input file selected", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    tbxInputFileSplit.Focus();
                 }
             } else {
 
-                MessageBox.Show("No input file selected", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                tbxInputFileSplit.Focus();
+                MessageBox.Show("Output path cannot be empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                tbxOutputPathSplit.Focus();
             }
         }
     }
