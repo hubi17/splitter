@@ -233,13 +233,10 @@ namespace _201200706_splitter_v0._1 {
             int vHeaderLength;
             string vHeader;
             string vType = "div";
-            long vFileLength;
-            long vDivCount;
+            int vFileLength;
+            int vDivCount;
             int vDivOffset;
-            // length of first div name
-            int vDivFirstLength;
             string vDivFirstName;
-            int vNameLength;
 
             // use 8 byte long split file sizes
             long vSplitSize;
@@ -264,13 +261,12 @@ namespace _201200706_splitter_v0._1 {
 
                             vFileName = vFI.Name;
                             vFS = new FileStream(vSrc, FileMode.Open, FileAccess.Read);
-                            vNameLength = vFileName.Length;
 
                             if (rbtnParts.Checked) {
                                 // Split count given
 
                                 vSplitCount = (long) nudSizeParts.Value;
-                                vFileLength = vFI.Length;
+                                vFileLength = (int) vFI.Length;
                                 vSplitSize = vFileLength / vSplitCount;
 
                                 // if not evenly divisible increase vSplitSize
@@ -279,7 +275,7 @@ namespace _201200706_splitter_v0._1 {
                                     vSplitSize++;
                                 }
 
-                                vDivCount = vSplitCount;
+                                vDivCount = (int) vSplitCount;
                             } else {
                                 // Else size option must be selected
 
@@ -300,7 +296,7 @@ namespace _201200706_splitter_v0._1 {
                                         break;
                                 }
 
-                                vFileLength = vFI.Length;
+                                vFileLength = (int) vFI.Length;
                                 vSplitCount = vFileLength / vSplitSize;
 
                                 // if not divisible need extra file
@@ -309,7 +305,7 @@ namespace _201200706_splitter_v0._1 {
                                     vSplitCount++;
                                 }
 
-                                vDivCount = vSplitCount;
+                                vDivCount = (int) vSplitCount;
                             }
 
                             vSplits = new byte[vFileLength];
@@ -320,9 +316,7 @@ namespace _201200706_splitter_v0._1 {
                             vBR.Close();
 
                             // set name of first div
-                            vDivFirstName = vDest + "\\" + vFileName + 1.ToString("D4");
-                            // get length of first div name
-                            vDivFirstLength = vDivFirstName.Length;
+                            vDivFirstName = vFileName + 1.ToString("D4");
 
                             for (int i = 1; i <= vSplitCount; i++) {
 
@@ -334,9 +328,9 @@ namespace _201200706_splitter_v0._1 {
                                         + vFileLength
                                         + vDivCount
                                         + vDivOffset
-                                        + vDivFirstLength
+                                        //+ vDivFirstLength
                                         + vDivFirstName
-                                        + vNameLength
+                                        //+ vNameLength
                                         + vFileName;
                                 vHeaderLength = vHeader.Length;
 
@@ -344,14 +338,11 @@ namespace _201200706_splitter_v0._1 {
                                 vBW = new BinaryWriter(vFS);
 
                                 vBW.Write(vHeaderLength);
-                                //vBW.Write(vHeader);
                                 vBW.Write(vType);
                                 vBW.Write(vFileLength);
                                 vBW.Write(vDivCount);
                                 vBW.Write(vDivOffset);
-                                vBW.Write(vDivFirstLength);
                                 vBW.Write(vDivFirstName);
-                                vBW.Write(vNameLength);
                                 vBW.Write(vFileName);
 
                                 for (int j = 0; j < vSplitSize; j++) {
@@ -458,13 +449,11 @@ namespace _201200706_splitter_v0._1 {
             string vOutputFile;
 
             int vHeaderLength;
-            byte[] vType;
+            string vType;
             long vFileLength;
             long vDivCount;
             int vDivOffset;
-            int vDivFirstLength;
             string vDivFirstName;
-            int vNameLength;
             string vName;
 
             long vSplitSize;
@@ -490,21 +479,20 @@ namespace _201200706_splitter_v0._1 {
                         vBR = new BinaryReader(vFS);
 
                         vHeaderLength = vBR.ReadInt32();
-                        // skip one byte denoting length of string
-                        vFS.Seek(1, SeekOrigin.Current);
-
-                        vType = new byte[3];
-                        vType = vBR.ReadBytes(3);
-
+                        vType = vBR.ReadString();
                         vFileLength = vBR.ReadInt32();
                         vDivCount = vBR.ReadInt32();
                         vDivOffset = vBR.ReadInt32();
+                        vDivFirstName = vBR.ReadString();
+                        vName = vBR.ReadString();
 
                         MessageBox.Show(Convert.ToString(vHeaderLength));
-                        MessageBox.Show((Convert.ToString((char) vType[0]) + (char) vType[1] + (char) vType[2]));
+                        MessageBox.Show(vType);
                         MessageBox.Show(Convert.ToString(vFileLength));
                         MessageBox.Show(Convert.ToString(vDivCount));
                         MessageBox.Show(Convert.ToString(vDivOffset));
+                        MessageBox.Show(vDivFirstName);
+                        MessageBox.Show(vName);
 
                         vBR.Close();
                         vSplitSize = vFI.Length;
