@@ -446,7 +446,8 @@ namespace _201200706_splitter_v0._1 {
 
             string vSrc;
             string vDest;
-            string vOutputFile;
+            string vOutputDir;
+            string vCurrentFile;
 
             int vHeaderLength;
             string vType;
@@ -456,13 +457,13 @@ namespace _201200706_splitter_v0._1 {
             string vDivFirstName;
             string vName;
 
-            long vSplitSize;
+            // vSplitSize is the net length of individual split files data
+            int vSplitSize;
             byte[] vCombine;
-            long vSplitCount;
-            // vSplitLength is length of individual split files data
+            // vSplitLength is the total length of split file
             int vSplitLength;
             byte[] vBuffer;
-            int vBufferIterator = 0;
+            int vCombineIterator = 0;
 
             if (tbxInputFileJoin.Text != "") {
                 
@@ -478,6 +479,7 @@ namespace _201200706_splitter_v0._1 {
                         vFS = new FileStream(vSrc, FileMode.Open, FileAccess.Read);
                         vBR = new BinaryReader(vFS);
 
+                        // read info of selected file
                         vHeaderLength = vBR.ReadInt32();
                         vType = vBR.ReadString();
                         vFileLength = vBR.ReadInt32();
@@ -486,21 +488,59 @@ namespace _201200706_splitter_v0._1 {
                         vDivFirstName = vBR.ReadString();
                         vName = vBR.ReadString();
 
-                        MessageBox.Show(Convert.ToString(vHeaderLength));
-                        MessageBox.Show(vType);
-                        MessageBox.Show(Convert.ToString(vFileLength));
-                        MessageBox.Show(Convert.ToString(vDivCount));
-                        MessageBox.Show(Convert.ToString(vDivOffset));
-                        MessageBox.Show(vDivFirstName);
-                        MessageBox.Show(vName);
-
                         vBR.Close();
-                        vSplitSize = vFI.Length;
+
+                        vSplitLength = (int) vFI.Length;
+                        vSplitSize = vSplitLength - vHeaderLength;
+                        vOutputDir = vFI.DirectoryName;
+
+                        // byte array to combine split parts
+                        vCombine = new byte[vFileLength];
+
+                        for (int i = 1; i <= vDivCount; i++) {
+
+                            vCurrentFile = vOutputDir + "\\" + vName + i.ToString("D4");
+                            vFI = new FileInfo(vCurrentFile);
+                            vFS = new FileStream(vCurrentFile, FileMode.Open, FileAccess.Read);
+                            vBR = new BinaryReader(vFS);
+
+                            // read info of div file
+                            vHeaderLength = vBR.ReadInt32();
+                            vType = vBR.ReadString();
+                            vFileLength = vBR.ReadInt32();
+                            vDivCount = vBR.ReadInt32();
+                            vDivOffset = vBR.ReadInt32();
+                            vDivFirstName = vBR.ReadString();
+                            vName = vBR.ReadString();
+
+                            vSplitLength = (int) vFI.Length;
+                            vSplitSize = vSplitLength - vHeaderLength;
+                            // buffer for reading indivual split files data
+                            vBuffer = new byte[vSplitSize];
+
+                            vBuffer = vBR.ReadBytes(vSplitSize);
+                            vBR.Close();
+
+                            for (int j = 0; j < vBuffer.Length; j++) {
+
+                                vCombine[vCombineIterator] = vBuffer[j];
+                                vCombineIterator++;
+                            }
+                        }
+
+                        vFS = new FileStream(tbxOutputPathJoin.Text + "\\" + vName, FileMode.Create, FileAccess.Write);
+                        vBW = new BinaryWriter(vFS);
+
+                        for (int i = 0; i < vCombine.Length; i++) {
+
+                            vBW.Write(vCombine[i]);
+                        }
+                        vBW.Close();
+
+                        MessageBox.Show("Done");
                     }
                 }
             }
-
-            
         }
     }
 }
