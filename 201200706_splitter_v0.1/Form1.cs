@@ -446,7 +446,7 @@ namespace _201200706_splitter_v0._1 {
 
             string vSrc;
             string vDest;
-            string vOutputDir;
+            string vCurrentDir;
             string vCurrentFile;
 
             int vHeaderLength;
@@ -479,7 +479,7 @@ namespace _201200706_splitter_v0._1 {
                         vFS = new FileStream(vSrc, FileMode.Open, FileAccess.Read);
                         vBR = new BinaryReader(vFS);
 
-                        // read info of selected file
+                        // read info of selected input file
                         vHeaderLength = vBR.ReadInt32();
                         vType = vBR.ReadString();
                         vFileLength = vBR.ReadInt32();
@@ -492,14 +492,14 @@ namespace _201200706_splitter_v0._1 {
 
                         vSplitLength = (int) vFI.Length;
                         vSplitSize = vSplitLength - vHeaderLength;
-                        vOutputDir = vFI.DirectoryName;
+                        vCurrentDir = vFI.DirectoryName;
 
                         // byte array to combine split parts
                         vCombine = new byte[vFileLength];
 
                         for (int i = 1; i <= vDivCount; i++) {
 
-                            vCurrentFile = vOutputDir + "\\" + vName + i.ToString("D4");
+                            vCurrentFile = vCurrentDir + "\\" + vName + i.ToString("D4");
                             vFI = new FileInfo(vCurrentFile);
                             vFS = new FileStream(vCurrentFile, FileMode.Open, FileAccess.Read);
                             vBR = new BinaryReader(vFS);
@@ -528,7 +528,7 @@ namespace _201200706_splitter_v0._1 {
                             }
                         }
 
-                        vFS = new FileStream(tbxOutputPathJoin.Text + "\\" + vName, FileMode.Create, FileAccess.Write);
+                        vFS = new FileStream(vDest + "\\" + vName, FileMode.Create, FileAccess.Write);
                         vBW = new BinaryWriter(vFS);
 
                         for (int i = 0; i < vCombine.Length; i++) {
