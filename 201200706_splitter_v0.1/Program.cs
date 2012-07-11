@@ -21,8 +21,25 @@ namespace _201200706_splitter_v0._1 {
             } else {
 
                 // cmd stuff
-                //Console.WriteLine("enter args");
-                MessageBox.Show(args[0]);
+
+                switch (args[0]) {
+                    case "-s":
+
+                        MessageBox.Show("split");
+                        // need object of formMain to call non static functions
+                        formMain test = new formMain();
+                        test.test();
+                        break;
+
+                    case "-j":
+
+                        MessageBox.Show("join");
+                        break;
+                    default:
+                 
+                        MessageBox.Show("Usage:");
+                        break;
+                }
             }
         }
     }

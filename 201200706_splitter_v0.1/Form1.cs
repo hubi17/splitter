@@ -109,7 +109,10 @@ namespace _201200706_splitter_v0._1 {
             }
             */
 
-            splitFile();
+            if (tbxInputFileSplit.Text != "" && tbxOutputPathSplit.Text != "") {
+                
+                splitFile(tbxInputFileSplit.Text, tbxOutputPathSplit.Text);
+            }
         }
 
         private void bgWorkerStatus_ProgressChanged(object sender, ProgressChangedEventArgs e) {
@@ -217,7 +220,7 @@ namespace _201200706_splitter_v0._1 {
             }
         }
 
-        private void splitFile() {
+        private void splitFile(string pSrc, string pDest) {
 
             FileStream vFS;
             BinaryWriter vBW;
@@ -225,8 +228,8 @@ namespace _201200706_splitter_v0._1 {
             FileInfo vFI;
             DirectoryInfo vDI;
 
-            string vSrc;
-            string vDest;
+            string vSrc = pSrc;
+            string vDest = pDest;
             string vOutputFile;
             string vFileName;
 
@@ -244,142 +247,125 @@ namespace _201200706_splitter_v0._1 {
             long vSplitCount = 0;
             int vSplitsIterator = 0;
 
-            if (tbxOutputPathSplit.Text != "") {
-
-                vDest = tbxOutputPathSplit.Text;
                 vDI = new DirectoryInfo(vDest);
 
-                if (tbxInputFileSplit.Text != "") {
+                if (vDI.Exists) {
 
-                    vSrc = tbxInputFileSplit.Text;
+                    if (File.Exists(vSrc)) {
 
-                    if (vDI.Exists) {
+                        vFI = new FileInfo(vSrc);
 
-                        if (File.Exists(vSrc)) {
+                        vFileName = vFI.Name;
+                        vFS = new FileStream(vSrc, FileMode.Open, FileAccess.Read);
 
-                            vFI = new FileInfo(vSrc);
+                        if (rbtnParts.Checked) {
+                            // Split count given
 
-                            vFileName = vFI.Name;
-                            vFS = new FileStream(vSrc, FileMode.Open, FileAccess.Read);
+                            vSplitCount = (long) nudSizeParts.Value;
+                            vFileLength = (int) vFI.Length;
+                            vSplitSize = vFileLength / vSplitCount;
 
-                            if (rbtnParts.Checked) {
-                                // Split count given
+                            // if not evenly divisible increase vSplitSize
+                            if (vFileLength % vSplitCount != 0) {
 
-                                vSplitCount = (long) nudSizeParts.Value;
-                                vFileLength = (int) vFI.Length;
-                                vSplitSize = vFileLength / vSplitCount;
-
-                                // if not evenly divisible increase vSplitSize
-                                if (vFileLength % vSplitCount != 0) {
-
-                                    vSplitSize++;
-                                }
-
-                                vDivCount = (int) vSplitCount;
-                            } else {
-                                // Else size option must be selected
-
-                                switch (cbxPrefix.Text) {
-
-                                    case "Bytes":
-                                        vSplitSize = (long) nudSizeParts.Value;
-                                        break;
-                                    case "KBytes":
-                                        vSplitSize = (long) nudSizeParts.Value * 1024;
-                                        break;
-                                    case "MBytes":
-                                        vSplitSize = (long) nudSizeParts.Value * 1024 * 1024;
-                                        break;
-                                    default:
-                                        vSplitSize = 0;
-                                        // error, invalid size
-                                        break;
-                                }
-
-                                vFileLength = (int) vFI.Length;
-                                vSplitCount = vFileLength / vSplitSize;
-
-                                // if not divisible need extra file
-                                if (vFileLength % vSplitSize != 0) {
-
-                                    vSplitCount++;
-                                }
-
-                                vDivCount = (int) vSplitCount;
+                                vSplitSize++;
                             }
 
-                            vSplits = new byte[vFileLength];
-
-                            // read selected input file into byte array for splitting
-                            vBR = new BinaryReader(vFS);
-                            vSplits = vBR.ReadBytes(Convert.ToInt32(vFileLength));
-                            vBR.Close();
-
-                            // set name of first div
-                            vDivFirstName = vFileName + 1.ToString("D4");
-
-                            for (int i = 1; i <= vSplitCount; i++) {
-
-                                vDivOffset = i;
-                                vOutputFile = vDest + "\\" + vFileName + i.ToString("D4");
-
-                                // construct header for div files
-                                vHeader = vType
-                                        + vFileLength
-                                        + vDivCount
-                                        + vDivOffset
-                                        //+ vDivFirstLength
-                                        + vDivFirstName
-                                        //+ vNameLength
-                                        + vFileName;
-                                vHeaderLength = vHeader.Length;
-
-                                vFS = new FileStream(vOutputFile, FileMode.OpenOrCreate, FileAccess.Write);
-                                vBW = new BinaryWriter(vFS);
-
-                                vBW.Write(vHeaderLength);
-                                vBW.Write(vType);
-                                vBW.Write(vFileLength);
-                                vBW.Write(vDivCount);
-                                vBW.Write(vDivOffset);
-                                vBW.Write(vDivFirstName);
-                                vBW.Write(vFileName);
-
-                                for (int j = 0; j < vSplitSize; j++) {
-
-                                    if (vSplitsIterator < vSplits.Length) {
-
-                                        vBW.Write(vSplits[vSplitsIterator]);
-                                        vSplitsIterator++;
-                                    } else {
-
-                                        vBW.Close();
-                                        break;
-                                    }
-                                }
-
-                                vBW.Close();
-                            }
+                            vDivCount = (int) vSplitCount;
                         } else {
+                            // Else size option must be selected
 
-                            MessageBox.Show("Incorrect input file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            tbxInputFileSplit.Focus();
+                            switch (cbxPrefix.Text) {
+
+                                case "Bytes":
+                                    vSplitSize = (long) nudSizeParts.Value;
+                                    break;
+                                case "KBytes":
+                                    vSplitSize = (long) nudSizeParts.Value * 1024;
+                                    break;
+                                case "MBytes":
+                                    vSplitSize = (long) nudSizeParts.Value * 1024 * 1024;
+                                    break;
+                                default:
+                                    vSplitSize = 0;
+                                    // error, invalid size
+                                    break;
+                            }
+
+                            vFileLength = (int) vFI.Length;
+                            vSplitCount = vFileLength / vSplitSize;
+
+                            // if not divisible need extra file
+                            if (vFileLength % vSplitSize != 0) {
+
+                                vSplitCount++;
+                            }
+
+                            vDivCount = (int) vSplitCount;
+                        }
+
+                        vSplits = new byte[vFileLength];
+
+                        // read selected input file into byte array for splitting
+                        vBR = new BinaryReader(vFS);
+                        vSplits = vBR.ReadBytes(Convert.ToInt32(vFileLength));
+                        vBR.Close();
+
+                        // set name of first div
+                        vDivFirstName = vFileName + 1.ToString("D4");
+
+                        for (int i = 1; i <= vSplitCount; i++) {
+
+                            vDivOffset = i;
+                            vOutputFile = vDest + "\\" + vFileName + i.ToString("D4");
+
+                            // construct header for div files
+                            vHeader = vType
+                                    + vFileLength
+                                    + vDivCount
+                                    + vDivOffset
+                                //+ vDivFirstLength
+                                    + vDivFirstName
+                                //+ vNameLength
+                                    + vFileName;
+                            vHeaderLength = vHeader.Length;
+
+                            vFS = new FileStream(vOutputFile, FileMode.OpenOrCreate, FileAccess.Write);
+                            vBW = new BinaryWriter(vFS);
+
+                            vBW.Write(vHeaderLength);
+                            vBW.Write(vType);
+                            vBW.Write(vFileLength);
+                            vBW.Write(vDivCount);
+                            vBW.Write(vDivOffset);
+                            vBW.Write(vDivFirstName);
+                            vBW.Write(vFileName);
+
+                            for (int j = 0; j < vSplitSize; j++) {
+
+                                if (vSplitsIterator < vSplits.Length) {
+
+                                    vBW.Write(vSplits[vSplitsIterator]);
+                                    vSplitsIterator++;
+                                } else {
+
+                                    vBW.Close();
+                                    break;
+                                }
+                            }
+
+                            vBW.Close();
                         }
                     } else {
 
-                        MessageBox.Show("Incorrect output path", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        tbxOutputPathSplit.Focus();
+                        MessageBox.Show("Incorrect input file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        tbxInputFileSplit.Focus();
                     }
                 } else {
 
-                    MessageBox.Show("No input file selected", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    tbxInputFileSplit.Focus();
+                    MessageBox.Show("Incorrect output path", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    tbxOutputPathSplit.Focus();
                 }
-            } else {
-
-                MessageBox.Show("Output path cannot be empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                tbxOutputPathSplit.Focus();
-            }
 
             MessageBox.Show("Done");
         }
@@ -434,18 +420,21 @@ namespace _201200706_splitter_v0._1 {
 
         private void btnJoin_Click(object sender, EventArgs e) {
 
-            joinFiles();
+            if (tbxInputFileJoin.Text != "" && tbxOutputPathJoin.Text != "") {
+                
+                joinFiles(tbxInputFileJoin.Text, tbxOutputPathJoin.Text);
+            }
         }
 
-        private void joinFiles() {
+        private void joinFiles(string pSrc, string pDest) {
 
             FileStream vFS;
             BinaryWriter vBW;
             BinaryReader vBR;
             FileInfo vFI;
 
-            string vSrc;
-            string vDest;
+            string vSrc = pSrc;
+            string vDest = pDest;
             string vCurrentDir;
             string vCurrentFile;
 
@@ -465,82 +454,77 @@ namespace _201200706_splitter_v0._1 {
             byte[] vBuffer;
             int vCombineIterator = 0;
 
-            if (tbxInputFileJoin.Text != "") {
-                
-                vSrc = tbxInputFileJoin.Text;
+            if (File.Exists(vSrc)) {
 
-                if (tbxOutputPathJoin.Text != "") {
+                vFI = new FileInfo(vSrc);
+                vFS = new FileStream(vSrc, FileMode.Open, FileAccess.Read);
+                vBR = new BinaryReader(vFS);
 
-                    vDest = tbxOutputPathJoin.Text;
+                // read info of selected input file
+                vHeaderLength = vBR.ReadInt32();
+                vType = vBR.ReadString();
+                vFileLength = vBR.ReadInt32();
+                vDivCount = vBR.ReadInt32();
+                vDivOffset = vBR.ReadInt32();
+                vDivFirstName = vBR.ReadString();
+                vName = vBR.ReadString();
 
-                    if (File.Exists(vSrc)) {
-                        
-                        vFI = new FileInfo(vSrc);
-                        vFS = new FileStream(vSrc, FileMode.Open, FileAccess.Read);
-                        vBR = new BinaryReader(vFS);
+                vBR.Close();
 
-                        // read info of selected input file
-                        vHeaderLength = vBR.ReadInt32();
-                        vType = vBR.ReadString();
-                        vFileLength = vBR.ReadInt32();
-                        vDivCount = vBR.ReadInt32();
-                        vDivOffset = vBR.ReadInt32();
-                        vDivFirstName = vBR.ReadString();
-                        vName = vBR.ReadString();
+                vSplitLength = (int) vFI.Length;
+                vSplitSize = vSplitLength - vHeaderLength;
+                vCurrentDir = vFI.DirectoryName;
 
-                        vBR.Close();
+                // byte array to combine split parts
+                vCombine = new byte[vFileLength];
 
-                        vSplitLength = (int) vFI.Length;
-                        vSplitSize = vSplitLength - vHeaderLength;
-                        vCurrentDir = vFI.DirectoryName;
+                for (int i = 1; i <= vDivCount; i++) {
 
-                        // byte array to combine split parts
-                        vCombine = new byte[vFileLength];
+                    vCurrentFile = vCurrentDir + "\\" + vName + i.ToString("D4");
+                    vFI = new FileInfo(vCurrentFile);
+                    vFS = new FileStream(vCurrentFile, FileMode.Open, FileAccess.Read);
+                    vBR = new BinaryReader(vFS);
 
-                        for (int i = 1; i <= vDivCount; i++) {
+                    // read info of div file
+                    vHeaderLength = vBR.ReadInt32();
+                    vType = vBR.ReadString();
+                    vFileLength = vBR.ReadInt32();
+                    vDivCount = vBR.ReadInt32();
+                    vDivOffset = vBR.ReadInt32();
+                    vDivFirstName = vBR.ReadString();
+                    vName = vBR.ReadString();
 
-                            vCurrentFile = vCurrentDir + "\\" + vName + i.ToString("D4");
-                            vFI = new FileInfo(vCurrentFile);
-                            vFS = new FileStream(vCurrentFile, FileMode.Open, FileAccess.Read);
-                            vBR = new BinaryReader(vFS);
+                    vSplitLength = (int) vFI.Length;
+                    vSplitSize = vSplitLength - vHeaderLength;
+                    // buffer for reading indivual split files data
+                    vBuffer = new byte[vSplitSize];
 
-                            // read info of div file
-                            vHeaderLength = vBR.ReadInt32();
-                            vType = vBR.ReadString();
-                            vFileLength = vBR.ReadInt32();
-                            vDivCount = vBR.ReadInt32();
-                            vDivOffset = vBR.ReadInt32();
-                            vDivFirstName = vBR.ReadString();
-                            vName = vBR.ReadString();
+                    vBuffer = vBR.ReadBytes(vSplitSize);
+                    vBR.Close();
 
-                            vSplitLength = (int) vFI.Length;
-                            vSplitSize = vSplitLength - vHeaderLength;
-                            // buffer for reading indivual split files data
-                            vBuffer = new byte[vSplitSize];
+                    for (int j = 0; j < vBuffer.Length; j++) {
 
-                            vBuffer = vBR.ReadBytes(vSplitSize);
-                            vBR.Close();
-
-                            for (int j = 0; j < vBuffer.Length; j++) {
-
-                                vCombine[vCombineIterator] = vBuffer[j];
-                                vCombineIterator++;
-                            }
-                        }
-
-                        vFS = new FileStream(vDest + "\\" + vName, FileMode.Create, FileAccess.Write);
-                        vBW = new BinaryWriter(vFS);
-
-                        for (int i = 0; i < vCombine.Length; i++) {
-
-                            vBW.Write(vCombine[i]);
-                        }
-                        vBW.Close();
-
-                        MessageBox.Show("Done");
+                        vCombine[vCombineIterator] = vBuffer[j];
+                        vCombineIterator++;
                     }
                 }
+
+                vFS = new FileStream(vDest + "\\" + vName, FileMode.Create, FileAccess.Write);
+                vBW = new BinaryWriter(vFS);
+
+                for (int i = 0; i < vCombine.Length; i++) {
+
+                    vBW.Write(vCombine[i]);
+                }
+                vBW.Close();
+
+                MessageBox.Show("Done");
             }
+        }
+
+        public void test() {
+
+            MessageBox.Show("test fct");
         }
     }
 }
