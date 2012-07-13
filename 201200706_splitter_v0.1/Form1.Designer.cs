@@ -42,15 +42,8 @@
             this.rbtnSize = new System.Windows.Forms.RadioButton();
             this.btnSplit = new System.Windows.Forms.Button();
             this.tabpageJoin = new System.Windows.Forms.TabPage();
-            this.dirBrowser = new System.Windows.Forms.FolderBrowserDialog();
-            this.openFile = new System.Windows.Forms.OpenFileDialog();
-            this.progressBarStatus = new System.Windows.Forms.ProgressBar();
-            this.bgWorkerStatus = new System.ComponentModel.BackgroundWorker();
-            this.mainMenu = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnCancelJoin = new System.Windows.Forms.Button();
+            this.btnJoin = new System.Windows.Forms.Button();
             this.gbxSelectionJoin = new System.Windows.Forms.GroupBox();
             this.lblDestJoin = new System.Windows.Forms.Label();
             this.lblSrcJoin = new System.Windows.Forms.Label();
@@ -58,10 +51,16 @@
             this.btnInputFileJoin = new System.Windows.Forms.Button();
             this.tbxOutputPathJoin = new System.Windows.Forms.TextBox();
             this.tbxInputFileJoin = new System.Windows.Forms.TextBox();
-            this.joinToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dirBrowser = new System.Windows.Forms.FolderBrowserDialog();
+            this.openFile = new System.Windows.Forms.OpenFileDialog();
+            this.progressBarStatus = new System.Windows.Forms.ProgressBar();
+            this.mainMenu = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnCancelJoin = new System.Windows.Forms.Button();
-            this.btnJoin = new System.Windows.Forms.Button();
+            this.joinToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabctrlSelection.SuspendLayout();
             this.tabpageSplit.SuspendLayout();
             this.gbxSizeParts.SuspendLayout();
@@ -69,8 +68,8 @@
             this.gbxSelectionSplit.SuspendLayout();
             this.gbxSplitType.SuspendLayout();
             this.tabpageJoin.SuspendLayout();
-            this.mainMenu.SuspendLayout();
             this.gbxSelectionJoin.SuspendLayout();
+            this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabctrlSelection
@@ -289,70 +288,24 @@
             this.tabpageJoin.Text = "Join";
             this.tabpageJoin.UseVisualStyleBackColor = true;
             // 
-            // openFile
+            // btnCancelJoin
             // 
-            this.openFile.FileName = "openFileDialog1";
+            this.btnCancelJoin.Location = new System.Drawing.Point(583, 247);
+            this.btnCancelJoin.Name = "btnCancelJoin";
+            this.btnCancelJoin.Size = new System.Drawing.Size(75, 23);
+            this.btnCancelJoin.TabIndex = 12;
+            this.btnCancelJoin.Text = "Cancel";
+            this.btnCancelJoin.UseVisualStyleBackColor = true;
             // 
-            // progressBarStatus
+            // btnJoin
             // 
-            this.progressBarStatus.Location = new System.Drawing.Point(12, 350);
-            this.progressBarStatus.Name = "progressBarStatus";
-            this.progressBarStatus.Size = new System.Drawing.Size(678, 23);
-            this.progressBarStatus.TabIndex = 20;
-            this.progressBarStatus.Visible = false;
-            // 
-            // bgWorkerStatus
-            // 
-            this.bgWorkerStatus.WorkerReportsProgress = true;
-            this.bgWorkerStatus.WorkerSupportsCancellation = true;
-            this.bgWorkerStatus.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorkerStatus_DoWork);
-            this.bgWorkerStatus.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWorkerStatus_ProgressChanged);
-            this.bgWorkerStatus.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorkerStatus_RunWorkerCompleted);
-            // 
-            // mainMenu
-            // 
-            this.mainMenu.BackColor = System.Drawing.SystemColors.Highlight;
-            this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.helpToolStripMenuItem});
-            this.mainMenu.Location = new System.Drawing.Point(0, 0);
-            this.mainMenu.Name = "mainMenu";
-            this.mainMenu.Size = new System.Drawing.Size(702, 24);
-            this.mainMenu.TabIndex = 2;
-            this.mainMenu.Text = "menuStrip1";
-            // 
-            // fileToolStripMenuItem
-            // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.splitToolStripMenuItem,
-            this.joinToolStripMenuItem,
-            this.exitToolStripMenuItem});
-            this.fileToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "&File";
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.exitToolStripMenuItem.Text = "E&xit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
-            // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem});
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.helpToolStripMenuItem.Text = "&Help";
-            // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.aboutToolStripMenuItem.Text = "&About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            this.btnJoin.Location = new System.Drawing.Point(502, 247);
+            this.btnJoin.Name = "btnJoin";
+            this.btnJoin.Size = new System.Drawing.Size(75, 23);
+            this.btnJoin.TabIndex = 11;
+            this.btnJoin.Text = "Join";
+            this.btnJoin.UseVisualStyleBackColor = true;
+            this.btnJoin.Click += new System.EventHandler(this.btnJoin_Click);
             // 
             // gbxSelectionJoin
             // 
@@ -421,38 +374,76 @@
             this.tbxInputFileJoin.Size = new System.Drawing.Size(436, 20);
             this.tbxInputFileJoin.TabIndex = 1;
             // 
-            // joinToolStripMenuItem
+            // openFile
             // 
-            this.joinToolStripMenuItem.Name = "joinToolStripMenuItem";
-            this.joinToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.joinToolStripMenuItem.Text = "&Join";
-            this.joinToolStripMenuItem.Click += new System.EventHandler(this.joinToolStripMenuItem_Click);
+            this.openFile.FileName = "openFileDialog1";
+            // 
+            // progressBarStatus
+            // 
+            this.progressBarStatus.Location = new System.Drawing.Point(12, 350);
+            this.progressBarStatus.Name = "progressBarStatus";
+            this.progressBarStatus.Size = new System.Drawing.Size(678, 23);
+            this.progressBarStatus.TabIndex = 20;
+            this.progressBarStatus.Visible = false;
+            // 
+            // mainMenu
+            // 
+            this.mainMenu.BackColor = System.Drawing.SystemColors.Highlight;
+            this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.helpToolStripMenuItem});
+            this.mainMenu.Location = new System.Drawing.Point(0, 0);
+            this.mainMenu.Name = "mainMenu";
+            this.mainMenu.Size = new System.Drawing.Size(702, 24);
+            this.mainMenu.TabIndex = 2;
+            this.mainMenu.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.splitToolStripMenuItem,
+            this.joinToolStripMenuItem,
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "&File";
             // 
             // splitToolStripMenuItem
             // 
             this.splitToolStripMenuItem.Name = "splitToolStripMenuItem";
-            this.splitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.splitToolStripMenuItem.Size = new System.Drawing.Size(97, 22);
             this.splitToolStripMenuItem.Text = "&Split";
             this.splitToolStripMenuItem.Click += new System.EventHandler(this.splitToolStripMenuItem_Click);
             // 
-            // btnCancelJoin
+            // joinToolStripMenuItem
             // 
-            this.btnCancelJoin.Location = new System.Drawing.Point(583, 247);
-            this.btnCancelJoin.Name = "btnCancelJoin";
-            this.btnCancelJoin.Size = new System.Drawing.Size(75, 23);
-            this.btnCancelJoin.TabIndex = 12;
-            this.btnCancelJoin.Text = "Cancel";
-            this.btnCancelJoin.UseVisualStyleBackColor = true;
+            this.joinToolStripMenuItem.Name = "joinToolStripMenuItem";
+            this.joinToolStripMenuItem.Size = new System.Drawing.Size(97, 22);
+            this.joinToolStripMenuItem.Text = "&Join";
+            this.joinToolStripMenuItem.Click += new System.EventHandler(this.joinToolStripMenuItem_Click);
             // 
-            // btnJoin
+            // exitToolStripMenuItem
             // 
-            this.btnJoin.Location = new System.Drawing.Point(502, 247);
-            this.btnJoin.Name = "btnJoin";
-            this.btnJoin.Size = new System.Drawing.Size(75, 23);
-            this.btnJoin.TabIndex = 11;
-            this.btnJoin.Text = "Join";
-            this.btnJoin.UseVisualStyleBackColor = true;
-            this.btnJoin.Click += new System.EventHandler(this.btnJoin_Click);
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(97, 22);
+            this.exitToolStripMenuItem.Text = "E&xit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "&Help";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Text = "&About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // formMain
             // 
@@ -476,10 +467,10 @@
             this.gbxSplitType.ResumeLayout(false);
             this.gbxSplitType.PerformLayout();
             this.tabpageJoin.ResumeLayout(false);
-            this.mainMenu.ResumeLayout(false);
-            this.mainMenu.PerformLayout();
             this.gbxSelectionJoin.ResumeLayout(false);
             this.gbxSelectionJoin.PerformLayout();
+            this.mainMenu.ResumeLayout(false);
+            this.mainMenu.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -493,7 +484,6 @@
         private System.Windows.Forms.FolderBrowserDialog dirBrowser;
         private System.Windows.Forms.OpenFileDialog openFile;
         private System.Windows.Forms.ProgressBar progressBarStatus;
-        private System.ComponentModel.BackgroundWorker bgWorkerStatus;
         private System.Windows.Forms.Button btnSplit;
         private System.Windows.Forms.GroupBox gbxSplitType;
         private System.Windows.Forms.RadioButton rbtnParts;
