@@ -295,7 +295,7 @@ namespace _201200706_splitter_v0._1 {
          *              -2  - if the output path was not specified correctly
          *              -3  - if split size is too small for header and data
          */
-        private int splitFile(string pSrc, string pDest, long pSplitSize, long pSplitCount, bool pSplitBySize) {
+        public int splitFile(string pSrc, string pDest, long pSplitSize, long pSplitCount, bool pSplitBySize) {
 
             FileStream vFS;
             BinaryWriter vBW;
@@ -524,7 +524,7 @@ namespace _201200706_splitter_v0._1 {
          *           0  - if the join was successful
          *          -1  - if a part file was missing
          */
-        private int joinFiles(string pSrc, string pDest) {
+        public int joinFiles(string pSrc, string pDest) {
 
             FileStream vFS;
             BinaryWriter vBW;
