@@ -12,6 +12,7 @@ using System.IO;
 namespace _201200706_splitter_v0._1 {
     public partial class formMain : Form {
 
+        // bool variables to determine when to show split type
         bool gSrcSelected = false;
         bool gDestSelected = false;
 
@@ -356,13 +357,13 @@ namespace _201200706_splitter_v0._1 {
                     vDivFirstName = vFileName + 1.ToString("D4");
 
                     // vHeaderLength is calculated using:
-                    //      sizeof(int)                     for the int that represents vHeaderLength
-                    //      string.Length + sizeof(byte)    for the size prefix of the string binary writer writes
-                    //      sizeof(int)                     for the int that represents vFileLength
-                    //      sizeof(int)                     for the int that represents pSplitCount
-                    //      sizeof(int)                     for the int that represents vDivOffset
-                    //      string.Length + sizeof(byte)    for the size prefix of the string binary writer writes
-                    //      string.Length + sizeof(byte)    for the size prefix of the string binary writer writes
+                    //      sizeof(int)                     the int that represents vHeaderLength
+                    //      string.Length + sizeof(byte)    the size prefix of the string binary writer writes
+                    //      sizeof(int)                     the int that represents vFileLength
+                    //      sizeof(int)                     the int that represents pSplitCount
+                    //      sizeof(int)                     the int that represents vDivOffset
+                    //      string.Length + sizeof(byte)    the size prefix of the string binary writer writes
+                    //      string.Length + sizeof(byte)    the size prefix of the string binary writer writes
                     vHeaderLength = sizeof(int)
                         + vType.Length + sizeof(byte)
                         + sizeof(int)
@@ -501,9 +502,11 @@ namespace _201200706_splitter_v0._1 {
                 switch (vError) {
 
                     case 0:
+
                         MessageBox.Show("Successfully joined files.");
                         break;
                     case -1:
+
                         MessageBox.Show("Missing part file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                 }
@@ -528,26 +531,41 @@ namespace _201200706_splitter_v0._1 {
             BinaryReader vBR;
             FileInfo vFI;
 
+            // store return value of method
             int vReturn = 0;
+            // path to source file
             string vSrc = pSrc;
+            // output directory
             string vDest = pDest;
+            // current directory
             string vCurrentDir;
+            // current file
             string vCurrentFile;
 
+            // total length of header
             int vHeaderLength;
+            // identifier for part files
             string vType;
+            // length of the original file
             long vFileLength;
-            long vDivCount;
+            // number of current part
             int vDivOffset;
+            // total number of parts
+            long vDivCount;
+            // name of the first part file
             string vDivFirstName;
+            // name of original file
             string vName;
 
             // vSplitSize is the net length of individual split files data
             int vSplitSize;
             // vSplitLength is the total length of split file
             int vSplitLength;
+            // buffer for reading current part file
             byte[] vBuffer;
+            // array to combine the parts
             byte[] vCombine;
+            // iterator to traverse combine arrays
             int vCombineIterator = 0;
 
             // check that given part file exists
