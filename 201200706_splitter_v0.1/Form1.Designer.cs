@@ -53,7 +53,6 @@
             this.tbxInputFileJoin = new System.Windows.Forms.TextBox();
             this.dirBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.openFile = new System.Windows.Forms.OpenFileDialog();
-            this.progressBarStatus = new System.Windows.Forms.ProgressBar();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -296,6 +295,7 @@
             this.btnCancelJoin.TabIndex = 12;
             this.btnCancelJoin.Text = "Cancel";
             this.btnCancelJoin.UseVisualStyleBackColor = true;
+            this.btnCancelJoin.Click += new System.EventHandler(this.btnCancelJoin_Click);
             // 
             // btnJoin
             // 
@@ -378,14 +378,6 @@
             // 
             this.openFile.FileName = "openFileDialog1";
             // 
-            // progressBarStatus
-            // 
-            this.progressBarStatus.Location = new System.Drawing.Point(12, 350);
-            this.progressBarStatus.Name = "progressBarStatus";
-            this.progressBarStatus.Size = new System.Drawing.Size(678, 23);
-            this.progressBarStatus.TabIndex = 20;
-            this.progressBarStatus.Visible = false;
-            // 
             // mainMenu
             // 
             this.mainMenu.BackColor = System.Drawing.SystemColors.Highlight;
@@ -449,8 +441,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(702, 387);
-            this.Controls.Add(this.progressBarStatus);
+            this.ClientSize = new System.Drawing.Size(702, 355);
             this.Controls.Add(this.tabctrlSelection);
             this.Controls.Add(this.mainMenu);
             this.MainMenuStrip = this.mainMenu;
@@ -483,7 +474,6 @@
         private System.Windows.Forms.TabPage tabpageJoin;
         private System.Windows.Forms.FolderBrowserDialog dirBrowser;
         private System.Windows.Forms.OpenFileDialog openFile;
-        private System.Windows.Forms.ProgressBar progressBarStatus;
         private System.Windows.Forms.Button btnSplit;
         private System.Windows.Forms.GroupBox gbxSplitType;
         private System.Windows.Forms.RadioButton rbtnParts;
