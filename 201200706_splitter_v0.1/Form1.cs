@@ -85,55 +85,86 @@ namespace _201200706_splitter_v0._1 {
             long vSplitCount;
             long vSplitSize;
             int vFileLength;
+            int vError;
 
             if (tbxInputFileSplit.Text != "" && tbxOutputPathSplit.Text != "") {
 
-                vFI = new FileInfo(tbxInputFileSplit.Text);
-                vFileLength = (int) vFI.Length;
+                if (File.Exists(tbxInputFileSplit.Text)) {
 
-                if (rbtnParts.Checked) {
-                    // Split count given
+                    vFI = new FileInfo(tbxInputFileSplit.Text);
+                    vFileLength = (int) vFI.Length;
 
-                    vSplitCount = (long) nudSizeParts.Value;
-                    
-                    vSplitSize = vFileLength / vSplitCount;
+                    if (rbtnParts.Checked) {
+                        // Split count given
 
-                    // if not evenly divisible increase vSplitSize
-                    if (vFileLength % vSplitCount != 0) {
+                        vSplitCount = (long) nudSizeParts.Value;
 
-                        vSplitSize++;
+                        vSplitSize = vFileLength / vSplitCount;
+
+                        // if not evenly divisible increase vSplitSize
+                        if (vFileLength % vSplitCount != 0) {
+
+                            vSplitSize++;
+                        }
+
+                        vError = splitFile(tbxInputFileSplit.Text, tbxOutputPathSplit.Text, vSplitSize, vSplitCount, false);
+                    } else {
+                        // Else size option must be selected
+
+                        switch (cbxPrefix.Text) {
+
+                            case "Bytes":
+
+                                vSplitSize = (long) nudSizeParts.Value;
+                                break;
+                            case "KBytes":
+
+                                vSplitSize = (long) nudSizeParts.Value * 1024;
+                                break;
+                            case "MBytes":
+
+                                vSplitSize = (long) nudSizeParts.Value * 1024 * 1024;
+                                break;
+                            default:
+
+                                vSplitSize = 0;
+                                // error, invalid size
+                                break;
+                        }
+
+                        vSplitCount = vFileLength / vSplitSize;
+
+                        // if not divisible need extra file
+                        if (vFileLength % vSplitSize != 0) {
+
+                            vSplitCount++;
+                        }
+
+                        vError = splitFile(tbxInputFileSplit.Text, tbxOutputPathSplit.Text, vSplitSize, vSplitCount, true);
                     }
 
-                    splitFile(tbxInputFileSplit.Text, tbxOutputPathSplit.Text, vSplitSize, vSplitCount);
+                    switch (vError) {
+
+                        case -2:
+
+                            MessageBox.Show("Incorrect output path", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            tbxOutputPathSplit.Focus();
+                            break;
+                        case -1:
+
+                            MessageBox.Show("Incorrect input file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            tbxInputFileSplit.Focus();
+                            break;
+                        case 0:
+
+                            MessageBox.Show("Successfully split file");
+                            clearSplit();
+                            break;
+                    }
                 } else {
-                    // Else size option must be selected
 
-                    switch (cbxPrefix.Text) {
-
-                        case "Bytes":
-                            vSplitSize = (long) nudSizeParts.Value;
-                            break;
-                        case "KBytes":
-                            vSplitSize = (long) nudSizeParts.Value * 1024;
-                            break;
-                        case "MBytes":
-                            vSplitSize = (long) nudSizeParts.Value * 1024 * 1024;
-                            break;
-                        default:
-                            vSplitSize = 0;
-                            // error, invalid size
-                            break;
-                    }
-
-                    vSplitCount = vFileLength / vSplitSize;
-
-                    // if not divisible need extra file
-                    if (vFileLength % vSplitSize != 0) {
-
-                        vSplitCount++;
-                    }
-
-                    splitFile(tbxInputFileSplit.Text, tbxOutputPathSplit.Text, vSplitSize, vSplitCount);
+                    MessageBox.Show("Incorrect input file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    tbxInputFileSplit.Focus();
                 }
             }
         }
@@ -163,12 +194,7 @@ namespace _201200706_splitter_v0._1 {
 
         private void btnCancel_Click(object sender, EventArgs e) {
 
-            gbxSplitType.Visible = false;
-            gbxSizeParts.Visible = false;
-            gDestSelected = false;
-            gSrcSelected = false;
-            tbxInputFileSplit.Clear();
-            tbxOutputPathSplit.Clear();
+            clearSplit();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -179,21 +205,6 @@ namespace _201200706_splitter_v0._1 {
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
 
             MessageBox.Show("File splitter & joiner\nby Daniel Auhuber\n2012", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void bgWorkerStatus_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
-
-            if (e.Cancelled) {
-
-                progressBarStatus.Value = 0;
-                progressBarStatus.Visible = false;
-                MessageBox.Show("Canceled");
-            } else {
-
-                progressBarStatus.Value = 0;
-                progressBarStatus.Visible = false;
-                MessageBox.Show("Done");
-            }
         }
 
         private void tbxInputFileSplit_KeyDown(object sender, KeyEventArgs e) {
@@ -235,7 +246,7 @@ namespace _201200706_splitter_v0._1 {
             }
         }
 
-        private void splitFile(string pSrc, string pDest, long pSplitSize, long pSplitCount) {
+        private int splitFile(string pSrc, string pDest, long pSplitSize, long pSplitCount, bool pSplitBySize) {
 
             FileStream vFS;
             BinaryWriter vBW;
@@ -243,13 +254,14 @@ namespace _201200706_splitter_v0._1 {
             FileInfo vFI;
             DirectoryInfo vDI;
 
+            int vReturn = 0;
             string vSrc = pSrc;
             string vDest = pDest;
             string vOutputFile;
             string vFileName;
 
             int vHeaderLength;
-            string vHeader;
+            //string vHeader;
             string vType = "div";
             int vFileLength;
             //int vDivCount;
@@ -285,22 +297,40 @@ namespace _201200706_splitter_v0._1 {
                         // set name of first div
                         vDivFirstName = vFileName + 1.ToString("D4");
 
+                        // if splitting by size, recalculate split size by taking header length into consideration
+                        if (pSplitBySize) {
+
+                            vHeaderLength = sizeof(int)
+                                + vType.Length + sizeof(byte)
+                                + sizeof(int)
+                                + sizeof(int)
+                                + sizeof(int)
+                                + vDivFirstName.Length + sizeof(byte)
+                                + vFileName.Length + sizeof(byte);
+
+                            pSplitSize -= vHeaderLength;
+                            //pSplitSize -= sizeof(int);
+                            pSplitCount = vFileLength / pSplitSize;
+
+                            // if not divisible need extra file
+                            if (vFileLength % pSplitSize != 0) {
+
+                                pSplitCount++;
+                            }
+                        }
+
                         for (int i = 1; i <= pSplitCount; i++) {
 
                             vDivOffset = i;
-                            vOutputFile = vDest + "\\" + vFileName + i.ToString("D4");
+                            vOutputFile = vDest + "\\" + vFileName + vDivOffset.ToString("D4");
 
-                            // construct header for div files
-                            vHeader = vType
-                                    + vFileLength
-                                    //+ vDivCount
-                                    + pSplitCount
-                                    + vDivOffset
-                                //+ vDivFirstLength
-                                    + vDivFirstName
-                                //+ vNameLength
-                                    + vFileName;
-                            vHeaderLength = vHeader.Length;
+                            vHeaderLength = sizeof(int)
+                                + vType.Length + sizeof(byte)
+                                + sizeof(int)
+                                + sizeof(int)
+                                + sizeof(int)
+                                + vDivFirstName.Length + sizeof(byte)
+                                + vFileName.Length + sizeof(byte);
 
                             vFS = new FileStream(vOutputFile, FileMode.OpenOrCreate, FileAccess.Write);
                             vBW = new BinaryWriter(vFS);
@@ -308,14 +338,11 @@ namespace _201200706_splitter_v0._1 {
                             vBW.Write(vHeaderLength);
                             vBW.Write(vType);
                             vBW.Write(vFileLength);
-                            //vBW.Write(vDivCount);
-                            // convert to int
                             vBW.Write((int) pSplitCount);
                             vBW.Write(vDivOffset);
                             vBW.Write(vDivFirstName);
                             vBW.Write(vFileName);
 
-                            //for (int j = 0; j < vSplitSize; j++) {
                             for (int j = 0; j < pSplitSize; j++) {
 
                                 if (vSplitsIterator < vSplits.Length) {
@@ -333,16 +360,16 @@ namespace _201200706_splitter_v0._1 {
                         }
                     } else {
 
-                        MessageBox.Show("Incorrect input file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        tbxInputFileSplit.Focus();
+                        // incorrect input file
+                        vReturn = -1;
                     }
                 } else {
 
-                    MessageBox.Show("Incorrect output path", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    tbxOutputPathSplit.Focus();
+                    // incorrect output path
+                    vReturn = -2;
                 }
 
-            MessageBox.Show("Done");
+            return vReturn;
         }
 
         private void splitToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -497,9 +524,14 @@ namespace _201200706_splitter_v0._1 {
             }
         }
 
-        public void test() {
+        private void clearSplit() {
 
-            MessageBox.Show("test fct");
+            gbxSplitType.Visible = false;
+            gbxSizeParts.Visible = false;
+            gDestSelected = false;
+            gSrcSelected = false;
+            tbxInputFileSplit.Clear();
+            tbxOutputPathSplit.Clear();
         }
     }
 }
