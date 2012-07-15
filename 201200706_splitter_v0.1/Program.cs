@@ -27,7 +27,7 @@ namespace _201200706_splitter_v0._1 {
             long vSplitSize;
             long vSplitCount;
             bool vSplitBySize;
-            string vHelpMessage = "Usage:\n-s src-file dest-dir [splitsize | splitcount] [true - split by size in bytes | false - split by parts]\n-j srv-file dest-dir";
+            string vHelpMessage = "Usage:\n-s src-file dest-dir [splitsize | splitcount] [true - split by size in bytes | false - split by parts]\n-j src-file dest-dir";
 
             if (args.Length == 0) {
 
@@ -103,6 +103,10 @@ namespace _201200706_splitter_v0._1 {
                             // check if any errors occured
                             switch (vError) {
 
+                                case -5:
+
+                                    Console.WriteLine("Selected file is too large.\nPlease select file smaller than" + int.MaxValue);
+                                    break;
                                 case -4:
 
                                     Console.WriteLine("Invalid number of parts.\nPlease select at least 2.");

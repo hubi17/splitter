@@ -169,6 +169,10 @@ namespace _201200706_splitter_v0._1 {
                     // check if any errors occured
                     switch (vError) {
 
+                        case -5:
+
+                            MessageBox.Show("Selected file is too large.\nPlease select file smaller than" + int.MaxValue, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
                         case -4:
 
                             MessageBox.Show("Invalid number of parts.\nPlease select at least 2.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -339,97 +343,103 @@ namespace _201200706_splitter_v0._1 {
 
                     vFI = new FileInfo(vSrc);
 
-                    // get the file name
-                    vFileName = vFI.Name;
-                    vFS = new FileStream(vSrc, FileMode.Open, FileAccess.Read);
+                    if (vFI.Length <= int.MaxValue) {
+                        // get the file name
+                        vFileName = vFI.Name;
+                        vFS = new FileStream(vSrc, FileMode.Open, FileAccess.Read);
 
-                    // get the file length
-                    vFileLength = (int) vFI.Length;
+                        // get the file length
+                        vFileLength = (int) vFI.Length;
 
-                    vSplits = new byte[vFileLength];
+                        vSplits = new byte[vFileLength];
 
-                    // read selected input file into byte array for splitting
-                    vBR = new BinaryReader(vFS);
-                    vSplits = vBR.ReadBytes(Convert.ToInt32(vFileLength));
-                    vBR.Close();
+                        // read selected input file into byte array for splitting
+                        vBR = new BinaryReader(vFS);
+                        vSplits = vBR.ReadBytes(Convert.ToInt32(vFileLength));
+                        vBR.Close();
 
-                    // set name of first div
-                    vDivFirstName = vFileName + 1.ToString("D4");
+                        // set name of first div
+                        vDivFirstName = vFileName + 1.ToString("D4");
 
-                    // vHeaderLength is calculated using:
-                    //      sizeof(int)                     the int that represents vHeaderLength
-                    //      string.Length + sizeof(byte)    the size prefix of the string binary writer writes
-                    //      sizeof(int)                     the int that represents vFileLength
-                    //      sizeof(int)                     the int that represents pSplitCount
-                    //      sizeof(int)                     the int that represents vDivOffset
-                    //      string.Length + sizeof(byte)    the size prefix of the string binary writer writes
-                    //      string.Length + sizeof(byte)    the size prefix of the string binary writer writes
-                    vHeaderLength = sizeof(int)
-                        + vType.Length + sizeof(byte)
-                        + sizeof(int)
-                        + sizeof(int)
-                        + sizeof(int)
-                        + vDivFirstName.Length + sizeof(byte)
-                        + vFileName.Length + sizeof(byte);
+                        // vHeaderLength is calculated using:
+                        //      sizeof(int)                     the int that represents vHeaderLength
+                        //      string.Length + sizeof(byte)    the size prefix of the string binary writer writes
+                        //      sizeof(int)                     the int that represents vFileLength
+                        //      sizeof(int)                     the int that represents pSplitCount
+                        //      sizeof(int)                     the int that represents vDivOffset
+                        //      string.Length + sizeof(byte)    the size prefix of the string binary writer writes
+                        //      string.Length + sizeof(byte)    the size prefix of the string binary writer writes
+                        vHeaderLength = sizeof(int)
+                            + vType.Length + sizeof(byte)
+                            + sizeof(int)
+                            + sizeof(int)
+                            + sizeof(int)
+                            + vDivFirstName.Length + sizeof(byte)
+                            + vFileName.Length + sizeof(byte);
 
-                    // if splitting by size, recalculate split size by taking header length into consideration
-                    if (pSplitBySize) {
+                        // if splitting by size, recalculate split size by taking header length into consideration
+                        if (pSplitBySize) {
 
-                        // remove vHeaderLength from pSplitSize and recalculate pSplitCount
-                        pSplitSize -= vHeaderLength;
-                        pSplitCount = vFileLength / pSplitSize;
+                            // remove vHeaderLength from pSplitSize and recalculate pSplitCount
+                            pSplitSize -= vHeaderLength;
+                            pSplitCount = vFileLength / pSplitSize;
 
-                        // if not divisible need extra file
-                        if (vFileLength % pSplitSize != 0) {
+                            // if not divisible need extra file
+                            if (vFileLength % pSplitSize != 0) {
 
-                            pSplitCount++;
-                        }
-                    }
-
-                    // check that the splitsize is greater than length of the header, otherwise no data can be writen to the files
-                    if (pSplitSize > vHeaderLength) {
-
-                        // iterate over the number of part files
-                        for (int i = 1; i <= pSplitCount; i++) {
-
-                            vDivOffset = i;
-                            vOutputFile = vDest + "\\" + vFileName + vDivOffset.ToString("D4");
-
-                            vFS = new FileStream(vOutputFile, FileMode.OpenOrCreate, FileAccess.Write);
-                            vBW = new BinaryWriter(vFS);
-
-                            // write header into file
-                            vBW.Write(vHeaderLength);
-                            vBW.Write(vType);
-                            vBW.Write(vFileLength);
-                            vBW.Write((int) pSplitCount);
-                            vBW.Write(vDivOffset);
-                            vBW.Write(vDivFirstName);
-                            vBW.Write(vFileName);
-
-                            // iterate over the length of each part file
-                            for (int j = 0; j < pSplitSize; j++) {
-
-                                // write actual data into file
-                                if (vSplitsIterator < vSplits.Length) {
-
-                                    // if more data is available write to file
-                                    vBW.Write(vSplits[vSplitsIterator]);
-                                    vSplitsIterator++;
-                                } else {
-
-                                    // else close file and end loop early
-                                    vBW.Close();
-                                    break;
-                                }
+                                pSplitCount++;
                             }
+                        }
 
-                            vBW.Close();
+                        // check that the splitsize is greater than length of the header, otherwise no data can be writen to the files
+                        if (pSplitSize > vHeaderLength) {
+
+                            // iterate over the number of part files
+                            for (int i = 1; i <= pSplitCount; i++) {
+
+                                vDivOffset = i;
+                                vOutputFile = vDest + "\\" + vFileName + vDivOffset.ToString("D4");
+
+                                vFS = new FileStream(vOutputFile, FileMode.OpenOrCreate, FileAccess.Write);
+                                vBW = new BinaryWriter(vFS);
+
+                                // write header into file
+                                vBW.Write(vHeaderLength);
+                                vBW.Write(vType);
+                                vBW.Write(vFileLength);
+                                vBW.Write((int) pSplitCount);
+                                vBW.Write(vDivOffset);
+                                vBW.Write(vDivFirstName);
+                                vBW.Write(vFileName);
+
+                                // iterate over the length of each part file
+                                for (int j = 0; j < pSplitSize; j++) {
+
+                                    // write actual data into file
+                                    if (vSplitsIterator < vSplits.Length) {
+
+                                        // if more data is available write to file
+                                        vBW.Write(vSplits[vSplitsIterator]);
+                                        vSplitsIterator++;
+                                    } else {
+
+                                        // else close file and end loop early
+                                        vBW.Close();
+                                        break;
+                                    }
+                                }
+
+                                vBW.Close();
+                            }
+                        } else {
+
+                            // invalid size specified
+                            vReturn = -3;
                         }
                     } else {
 
-                        // invalid size specified
-                        vReturn = -3;
+                        // file size too big
+                        vReturn = -5;
                     }
                 } else {
 
